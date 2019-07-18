@@ -1,0 +1,489 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="碳14">
+    <title>JS老代码按需加载业务组件改造 - 碳14</title>
+    <meta name="author" content="碳14">
+    
+        <meta name="keywords" content="web,javascript,咸鱼君,">
+    
+    
+        <link rel="icon" href="https://rcong.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"碳14","sameAs":["https://github.com/Rcong","mailto:654846387@qq.com"],"image":"avatar.jpeg"},"articleBody":"\n方案\n方法一：从代码角度出发，重构一下业务组件，抽离这些弹框操作的共有部分，节约一大波重复代码。\n方法二：改变业务组件的引入方式，根据各路由模块拆分业务组件，然后再按需加载文件。\n\n方法一比较花时间，并且需要对业务特别熟悉。团队人员变更较多，并且业务紧急的情况下不太可取。方法二按需加载时花点时间去加载js文件，但交互上感知轻微，并且相比方案一，方案二更可执行。所以采取方案二，那么怎么做到按需加载呢？\n使用import（）按需加载业务组件配合webpack使用符合ECMAScript提案的import()语法来实现动态导入。\n之前一般都是业务组件和基础函数一类打包成chunk文件，首屏加载时引入，相应的引入方式如下123456import &#123; initXXXModal &#125; from &apos;COMMON/xxxModals&apos;//当监听中调用时button.addEventListener(&apos;click&apos;, event =&gt; &#123;    initXXXModal(data);&#125;);\n这在文件比较小的时候还行，但项目迭代了，文件大了，就会影响加载速度，使用import()改进后如下，123456//当监听中调用时button.addEventListener(&apos;click&apos;, event =&gt; &#123;    import(/* webpackChunkName: &quot;xxxModals&quot; */ &apos;COMMON/xxxModals/index).then((&#123; initXXXModal &#125;) =&gt; &#123;        initXXXModal(data);    &#125;);&#125;);\n打包后会形成一个xxxModals.js文件，只有点击button时才会去加载。\nxxxModals只涉及到某个人编写的某几处弹框组件，那么整个项目中各路由下的各自的组件如果都以这样的方式打包的话，那么最后会形成多个组件的js文件。\n目前以一级路由来划分所有业务组件，某个路由下的组件统一一个chunkFile，在使用时再加载这个文件。\n","dateCreated":"2018-12-20T13:11:52+08:00","dateModified":"2019-07-19T00:25:46+08:00","datePublished":"2018-12-20T13:11:52+08:00","description":"背景部门有个老项目，使用的是原生js自研框架，是那种spa架构的产品，比较多的一个场景是列表或者表单，点击某个按钮有一些弹框的操作。目前的打包处理方式，这类弹框业务组件和一些基础的通用函数放置在一块打包成chunk，再根据一级路由划分打包成不同业务模块的js文件。所以打开页面时，会去加载某个路由js文件以及chunk文件。\nchunk里面包含了一大堆弹框业务组件导致文件变大，影响首屏加载的速度，怎么去优化这个文件大小比较合适？","headline":"JS老代码按需加载业务组件改造","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://rcong.github.io/2018/12/20/2018/JS老代码按需加载业务组件改造/"},"publisher":{"@type":"Organization","name":"碳14","sameAs":["https://github.com/Rcong","mailto:654846387@qq.com"],"image":"avatar.jpeg","logo":{"@type":"ImageObject","url":"avatar.jpeg"}},"url":"https://rcong.github.io/2018/12/20/2018/JS老代码按需加载业务组件改造/","keywords":"js, webpack"}</script>
+    <meta name="description" content="背景部门有个老项目，使用的是原生js自研框架，是那种spa架构的产品，比较多的一个场景是列表或者表单，点击某个按钮有一些弹框的操作。目前的打包处理方式，这类弹框业务组件和一些基础的通用函数放置在一块打包成chunk，再根据一级路由划分打包成不同业务模块的js文件。所以打开页面时，会去加载某个路由js文件以及chunk文件。 chunk里面包含了一大堆弹框业务组件导致文件变大，影响首屏加载的速度，怎">
+<meta name="keywords" content="js,webpack">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="JS老代码按需加载业务组件改造">
+<meta property="og:url" content="https://rcong.github.io/2018/12/20/2018/JS老代码按需加载业务组件改造/index.html">
+<meta property="og:site_name" content="碳14">
+<meta property="og:description" content="背景部门有个老项目，使用的是原生js自研框架，是那种spa架构的产品，比较多的一个场景是列表或者表单，点击某个按钮有一些弹框的操作。目前的打包处理方式，这类弹框业务组件和一些基础的通用函数放置在一块打包成chunk，再根据一级路由划分打包成不同业务模块的js文件。所以打开页面时，会去加载某个路由js文件以及chunk文件。 chunk里面包含了一大堆弹框业务组件导致文件变大，影响首屏加载的速度，怎">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-07-18T16:25:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS老代码按需加载业务组件改造">
+<meta name="twitter:description" content="背景部门有个老项目，使用的是原生js自研框架，是那种spa架构的产品，比较多的一个场景是列表或者表单，点击某个按钮有一些弹框的操作。目前的打包处理方式，这类弹框业务组件和一些基础的通用函数放置在一块打包成chunk，再根据一级路由划分打包成不同业务模块的js文件。所以打开页面时，会去加载某个路由js文件以及chunk文件。 chunk里面包含了一大堆弹框业务组件导致文件变大，影响首屏加载的速度，怎">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://rcong.github.io/assets/images/avatar.jpeg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-c4ozcsklz4kht2pebhp44xorvyverh23toayhn7i6ubrpyedak24hv1v0hyd.min.css">
+    <!--STYLES END-->
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">碳14</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.jpeg" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+    
+                
+                            
+                                
+                                    
+                                        <nav id="sidebar" data-behavior="4">
+                                            <div class="sidebar-container">
+                                                
+                                                    <div class="sidebar-profile">
+                                                        <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpeg" alt="作者的图片">
+                </a>
+                                                        <h4 class="sidebar-profile-name">
+                                                            碳14
+                                                        </h4>
+                                                        
+                                                            <h5 class="sidebar-profile-bio">
+                                                                <p>咸鱼君’s blog</p>
+
+                                                            </h5>
+                                                            
+                                                    </div>
+                                                    
+                                                        
+                                                            <ul class="sidebar-buttons">
+                                                                
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                            </ul>
+                                                            
+                                                            <ul class="sidebar-buttons">
+                                                                
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                            <a class="sidebar-button-link " href="https://github.com/Rcong" target="_blank" rel="noopener" title="GitHub">
+                                                                                
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                            <a class="sidebar-button-link " href="mailto:654846387@qq.com" target="_blank" rel="noopener" title="邮箱">
+                                                                                
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                            </ul>
+                                                            
+                                                            <ul class="sidebar-buttons">
+                                                                
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/atom.xml" title="RSS">
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                            </ul>
+                                                            
+                                            </div>
+                                        </nav>
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            JS老代码按需加载业务组件改造
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-12-20T13:11:52+08:00">
+	
+		    12月 20, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/技术/">技术</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><ul>
+<li>方法一：从代码角度出发，重构一下业务组件，抽离这些弹框操作的共有部分，节约一大波重复代码。</li>
+<li>方法二：改变业务组件的引入方式，根据各路由模块拆分业务组件，然后再按需加载文件。</li>
+</ul>
+<p>方法一比较花时间，并且需要对业务特别熟悉。团队人员变更较多，并且业务紧急的情况下不太可取。方法二按需加载时花点时间去加载js文件，但交互上感知轻微，并且相比方案一，方案二更可执行。所以采取方案二，那么怎么做到按需加载呢？</p>
+<h2 id="使用import（）按需加载业务组件"><a href="#使用import（）按需加载业务组件" class="headerlink" title="使用import（）按需加载业务组件"></a>使用import（）按需加载业务组件</h2><p>配合webpack使用符合<a href="https://github.com/tc39/proposal-dynamic-import" target="_blank" rel="noopener">ECMAScript提案</a>的<strong>import()语法</strong>来实现动态导入。</p>
+<p>之前一般都是业务组件和基础函数一类打包成chunk文件，首屏加载时引入，相应的引入方式如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import &#123; initXXXModal &#125; from &apos;COMMON/xxxModals&apos;</span><br><span class="line"></span><br><span class="line">//当监听中调用时</span><br><span class="line">button.addEventListener(&apos;click&apos;, event =&gt; &#123;</span><br><span class="line">    initXXXModal(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>这在文件比较小的时候还行，但项目迭代了，文件大了，就会影响加载速度，使用import()改进后如下，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//当监听中调用时</span><br><span class="line">button.addEventListener(&apos;click&apos;, event =&gt; &#123;</span><br><span class="line">    import(/* webpackChunkName: &quot;xxxModals&quot; */ &apos;COMMON/xxxModals/index).then((&#123; initXXXModal &#125;) =&gt; &#123;</span><br><span class="line">        initXXXModal(data);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>打包后会形成一个xxxModals.js文件，只有点击button时才会去加载。</p>
+<p>xxxModals只涉及到某个人编写的某几处弹框组件，那么整个项目中各路由下的各自的组件如果都以这样的方式打包的话，那么最后会形成多个组件的js文件。</p>
+<p>目前以一级路由来划分所有业务组件，某个路由下的组件统一一个chunkFile，在使用时再加载这个文件。</p>
+<!-- ## 总结
+这只是一次简单的利用import()特性优化的过程。 -->
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/js/">js</a> <a class="tag tag--primary tag--small t-link" href="/tags/webpack/">webpack</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/17/2019/浅析DNS协议/" data-tooltip="浅析DNS协议" aria-label="上一篇: 浅析DNS协议">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/02/2018/QAP中的Web Chart需求/" data-tooltip="QAP中的Web Chart需求" aria-label="下一篇: QAP中的Web Chart需求">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="post.share">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://rcong.github.io/2018/12/20/2018/JS老代码按需加载业务组件改造/" title="分享到 Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://rcong.github.io/2018/12/20/2018/JS老代码按需加载业务组件改造/" title="分享到 Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://rcong.github.io/2018/12/20/2018/JS老代码按需加载业务组件改造/" title="分享到 Google+">
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="post.back_to_top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 碳14. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/17/2019/浅析DNS协议/" data-tooltip="浅析DNS协议" aria-label="上一篇: 浅析DNS协议">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/02/2018/QAP中的Web Chart需求/" data-tooltip="QAP中的Web Chart需求" aria-label="下一篇: QAP中的Web Chart需求">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="post.share">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://rcong.github.io/2018/12/20/2018/JS老代码按需加载业务组件改造/" title="分享到 Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://rcong.github.io/2018/12/20/2018/JS老代码按需加载业务组件改造/" title="分享到 Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://rcong.github.io/2018/12/20/2018/JS老代码按需加载业务组件改造/" title="分享到 Google+">
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="post.back_to_top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://rcong.github.io/2018/12/20/2018/JS老代码按需加载业务组件改造/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://rcong.github.io/2018/12/20/2018/JS老代码按需加载业务组件改造/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://rcong.github.io/2018/12/20/2018/JS老代码按需加载业务组件改造/">
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.jpeg" alt="作者的图片">
+        
+            <h4 id="about-card-name">碳14</h4>
+        
+            <div id="about-card-bio"><p>咸鱼君’s blog</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>author.job</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover-v1.1.0.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-dbd16rvloemmuxdzniplmnxxvwoz24eya9wol0b7vvmlokgqsjivmb8dnscy.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

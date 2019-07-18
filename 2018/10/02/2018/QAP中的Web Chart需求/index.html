@@ -1,0 +1,494 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="碳14">
+    <title>QAP中的Web Chart需求 - 碳14</title>
+    <meta name="author" content="碳14">
+    
+        <meta name="keywords" content="web,javascript,咸鱼君,">
+    
+    
+        <link rel="icon" href="https://rcong.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"碳14","sameAs":["https://github.com/Rcong","mailto:654846387@qq.com"],"image":"avatar.jpeg"},"articleBody":"\n\n使用H5达到效果的Chart\n\n\n方案H5中的Chart库相对于QAP的图表库拥有更丰富的自定义设置，可以满足日常业务方所需要的展示逻辑和需求，但是H5的Chart库怎么在以Weex渲染的QAP平台中去展现的?\n\n在native端使用weex提供的Web网页容器\n\n12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152import &#123;createElement, Component, render&#125; from &apos;rax&apos;; // eslint-disable-line no-unused-varsimport &#123; Web, Page, Modal, Button, View &#125; from &apos;nuke&apos;;import QAP from &apos;QAP-SDK&apos;;const styles = &#123;    content : &#123;        height:&apos;500rem&apos;,        margin:&apos;30rem&apos;,        padding:&apos;10rem&apos;,        backgroundColor:&apos;#ffffff&apos;,        justifyContent:&apos;center&apos;,        alignItems:&apos;center&apos;    &#125;,    btns:&#123;        margin:&apos;30rem&apos;    &#125;&#125;class WebDemo extends Component &#123;    constructor() &#123;        super();        this.eventsBind();    &#125;    eventsBind()&#123;        QAP.on(&apos;App.WebChart.chartDemoLoaded&apos;, () =&gt; &#123;            Modal.toast(&apos;H5页面Loaded&apos;);            this.getRandomData()        &#125;);    &#125;    getRandomData()&#123;        let date = [&apos;09.06&apos;, &apos;09.07&apos;, &apos;09.08&apos;, &apos;09.09&apos;, &apos;09.10&apos;, &apos;09.11&apos;, &apos;09.12&apos;],            data = [Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100];        QAP.emit(&apos;App.WebChart.chartDemo&apos;, &#123;date: date, data: data, util: &apos;QAP与H5图表通信随机数据&apos;&#125;);    &#125;    render() &#123;        return (            &lt;Page title=&quot;Web&quot;&gt;                &lt;Page.Intro main=&quot;使用 web 组件载入图表页面,H5托管七牛云&quot;&gt;&lt;/Page.Intro&gt;                &lt;Web style=&#123;[styles.content]&#125; src=&quot;http://puqqf48gp.bkt.clouddn.com/chartDemo.html&quot;&gt;&lt;/Web&gt;                &lt;View style=&#123;styles.btns&#125;&gt;                    &lt;Button onPress=&#123;this.getRandomData&#125; block=&quot;true&quot; type=&quot;primary&quot;&gt;随机数据&lt;/Button&gt;                &lt;/View&gt;            &lt;/Page&gt;        );    &#125;&#125;render(&lt;WebDemo/&gt;);\n\nH5页面1234567891011121314151617181920212223242526&lt;!DOCTYPE html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;    &lt;meta charset=&quot;UTF-8&quot;&gt;    &lt;title&gt;图表展示&lt;/title&gt;    &lt;meta name=&quot;renderer&quot; content=&quot;webkit&quot;&gt;    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0&quot;&gt;    &lt;script src=&quot;https://g.alicdn.com/x-bridge/qap-sdk/1.0.10/qn.min.js&quot;&gt;&lt;/script&gt;    &lt;script src=&quot;https://g.alicdn.com/sj/lib/jquery.min.js&quot;&gt;&lt;/script&gt;    &lt;script src=&quot;https://code.highcharts.com.cn/highcharts/highcharts.js&quot;&gt;&lt;/script&gt;&lt;/head&gt;&lt;body&gt;    &lt;div id=&quot;chartContainer&quot;&gt;    &lt;/div&gt;&lt;/body&gt;&lt;script type=&quot;text/javascript&quot;&gt;    $(function() &#123;        QN.emit(&apos;App.WebChart.chartDemoLoaded&apos;, true);        QN.on(&apos;App.WebChart.chartDemo&apos;, function(chartParam) &#123;            //图表展示逻辑        &#125;);    &#125;)&lt;/script&gt;&lt;/html&gt;\n\n\n整体的逻辑\n总的来说,通过QAP提供的事件机制起到Web页与QAP页面的通信。Web页面的展现逻辑相对于Weex渲染的页面和组件可以做到更丰富。","dateCreated":"2018-10-02T19:48:41+08:00","dateModified":"2019-07-19T00:31:17+08:00","datePublished":"2018-10-02T19:48:41+08:00","description":"背景QAP的Chart库是基于weex + rax, 包含了线图、柱状图、饼图、雷达图等，由客户端插件实现，性能好，开发友好，直接引用就行。\n\nQAP原生的Chart\n\n\n但是对于各插件商自己的业务需求，QAP的Chart库很难去满足不同的展现逻辑和需求。","headline":"QAP中的Web Chart需求","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://rcong.github.io/2018/10/02/2018/QAP中的Web Chart需求/"},"publisher":{"@type":"Organization","name":"碳14","sameAs":["https://github.com/Rcong","mailto:654846387@qq.com"],"image":"avatar.jpeg","logo":{"@type":"ImageObject","url":"avatar.jpeg"}},"url":"https://rcong.github.io/2018/10/02/2018/QAP中的Web Chart需求/","keywords":"QAP"}</script>
+    <meta name="description" content="背景QAP的Chart库是基于weex + rax, 包含了线图、柱状图、饼图、雷达图等，由客户端插件实现，性能好，开发友好，直接引用就行。  QAP原生的Chart   但是对于各插件商自己的业务需求，QAP的Chart库很难去满足不同的展现逻辑和需求。">
+<meta name="keywords" content="QAP">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="QAP中的Web Chart需求">
+<meta property="og:url" content="https://rcong.github.io/2018/10/02/2018/QAP中的Web Chart需求/index.html">
+<meta property="og:site_name" content="碳14">
+<meta property="og:description" content="背景QAP的Chart库是基于weex + rax, 包含了线图、柱状图、饼图、雷达图等，由客户端插件实现，性能好，开发友好，直接引用就行。  QAP原生的Chart   但是对于各插件商自己的业务需求，QAP的Chart库很难去满足不同的展现逻辑和需求。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/jpeg/103782/1563425928516-2ecec587-7828-4570-a9b1-ad34ba93ed81.jpeg?x-oss-process=image/resize,w_450">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/jpeg/103782/1563465445206-12edc4de-0029-4787-a217-9e585d9ba462.jpeg?x-oss-process=image/resize,w_746">
+<meta property="og:updated_time" content="2019-07-18T16:31:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="QAP中的Web Chart需求">
+<meta name="twitter:description" content="背景QAP的Chart库是基于weex + rax, 包含了线图、柱状图、饼图、雷达图等，由客户端插件实现，性能好，开发友好，直接引用就行。  QAP原生的Chart   但是对于各插件商自己的业务需求，QAP的Chart库很难去满足不同的展现逻辑和需求。">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/jpeg/103782/1563425928516-2ecec587-7828-4570-a9b1-ad34ba93ed81.jpeg?x-oss-process=image/resize,w_450">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://rcong.github.io/assets/images/avatar.jpeg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-c4ozcsklz4kht2pebhp44xorvyverh23toayhn7i6ubrpyedak24hv1v0hyd.min.css">
+    <!--STYLES END-->
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">碳14</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.jpeg" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+    
+                
+                            
+                                
+                                    
+                                        <nav id="sidebar" data-behavior="4">
+                                            <div class="sidebar-container">
+                                                
+                                                    <div class="sidebar-profile">
+                                                        <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpeg" alt="作者的图片">
+                </a>
+                                                        <h4 class="sidebar-profile-name">
+                                                            碳14
+                                                        </h4>
+                                                        
+                                                            <h5 class="sidebar-profile-bio">
+                                                                <p>咸鱼君’s blog</p>
+
+                                                            </h5>
+                                                            
+                                                    </div>
+                                                    
+                                                        
+                                                            <ul class="sidebar-buttons">
+                                                                
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                            </ul>
+                                                            
+                                                            <ul class="sidebar-buttons">
+                                                                
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                            <a class="sidebar-button-link " href="https://github.com/Rcong" target="_blank" rel="noopener" title="GitHub">
+                                                                                
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                            <a class="sidebar-button-link " href="mailto:654846387@qq.com" target="_blank" rel="noopener" title="邮箱">
+                                                                                
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                            </ul>
+                                                            
+                                                            <ul class="sidebar-buttons">
+                                                                
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/atom.xml" title="RSS">
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                            </ul>
+                                                            
+                                            </div>
+                                        </nav>
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            QAP中的Web Chart需求
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-10-02T19:48:41+08:00">
+	
+		    10月 02, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/技术/">技术</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<ul>
+<li>使用H5达到效果的Chart</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/jpeg/103782/1563425928516-2ecec587-7828-4570-a9b1-ad34ba93ed81.jpeg?x-oss-process=image/resize,w_450" alt="H5 Chart"></p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>H5中的Chart库相对于QAP的图表库拥有更丰富的自定义设置，可以满足日常业务方所需要的展示逻辑和需求，但是H5的Chart库怎么在以Weex渲染的QAP平台中去展现的?</p>
+<ul>
+<li>在native端使用weex提供的Web网页容器</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">import &#123;createElement, Component, render&#125; from &apos;rax&apos;; // eslint-disable-line no-unused-vars</span><br><span class="line">import &#123; Web, Page, Modal, Button, View &#125; from &apos;nuke&apos;;</span><br><span class="line">import QAP from &apos;QAP-SDK&apos;;</span><br><span class="line"></span><br><span class="line">const styles = &#123;</span><br><span class="line">    content : &#123;</span><br><span class="line">        height:&apos;500rem&apos;,</span><br><span class="line">        margin:&apos;30rem&apos;,</span><br><span class="line">        padding:&apos;10rem&apos;,</span><br><span class="line">        backgroundColor:&apos;#ffffff&apos;,</span><br><span class="line">        justifyContent:&apos;center&apos;,</span><br><span class="line">        alignItems:&apos;center&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    btns:&#123;</span><br><span class="line">        margin:&apos;30rem&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class WebDemo extends Component &#123;</span><br><span class="line">    constructor() &#123;</span><br><span class="line">        super();</span><br><span class="line">        this.eventsBind();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    eventsBind()&#123;</span><br><span class="line">        QAP.on(&apos;App.WebChart.chartDemoLoaded&apos;, () =&gt; &#123;</span><br><span class="line">            Modal.toast(&apos;H5页面Loaded&apos;);</span><br><span class="line">            this.getRandomData()</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    getRandomData()&#123;</span><br><span class="line">        let date = [&apos;09.06&apos;, &apos;09.07&apos;, &apos;09.08&apos;, &apos;09.09&apos;, &apos;09.10&apos;, &apos;09.11&apos;, &apos;09.12&apos;],</span><br><span class="line">            data = [Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100];</span><br><span class="line"></span><br><span class="line">        QAP.emit(&apos;App.WebChart.chartDemo&apos;, &#123;date: date, data: data, util: &apos;QAP与H5图表通信随机数据&apos;&#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;Page title=&quot;Web&quot;&gt;</span><br><span class="line">                &lt;Page.Intro main=&quot;使用 web 组件载入图表页面,H5托管七牛云&quot;&gt;&lt;/Page.Intro&gt;</span><br><span class="line">                &lt;Web style=&#123;[styles.content]&#125; src=&quot;http://puqqf48gp.bkt.clouddn.com/chartDemo.html&quot;&gt;&lt;/Web&gt;</span><br><span class="line">                &lt;View style=&#123;styles.btns&#125;&gt;</span><br><span class="line">                    &lt;Button onPress=&#123;this.getRandomData&#125; block=&quot;true&quot; type=&quot;primary&quot;&gt;随机数据&lt;/Button&gt;</span><br><span class="line">                &lt;/View&gt;</span><br><span class="line">            &lt;/Page&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">render(&lt;WebDemo/&gt;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>H5页面<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;图表展示&lt;/title&gt;</span><br><span class="line">    &lt;meta name=&quot;renderer&quot; content=&quot;webkit&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;script src=&quot;https://g.alicdn.com/x-bridge/qap-sdk/1.0.10/qn.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src=&quot;https://g.alicdn.com/sj/lib/jquery.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src=&quot;https://code.highcharts.com.cn/highcharts/highcharts.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div id=&quot;chartContainer&quot;&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">    $(function() &#123;</span><br><span class="line">        QN.emit(&apos;App.WebChart.chartDemoLoaded&apos;, true);</span><br><span class="line"></span><br><span class="line">        QN.on(&apos;App.WebChart.chartDemo&apos;, function(chartParam) &#123;</span><br><span class="line">            //图表展示逻辑</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="整体的逻辑"><a href="#整体的逻辑" class="headerlink" title="整体的逻辑"></a>整体的逻辑</h2><p><img src="https://cdn.nlark.com/yuque/0/2019/jpeg/103782/1563465445206-12edc4de-0029-4787-a217-9e585d9ba462.jpeg?x-oss-process=image/resize,w_746" alt="整体的逻辑"></p>
+<p>总的来说,通过QAP提供的事件机制起到Web页与QAP页面的通信。Web页面的展现逻辑相对于Weex渲染的页面和组件可以做到更丰富。</p>
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/QAP/">QAP</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/12/20/2018/JS老代码按需加载业务组件改造/" data-tooltip="JS老代码按需加载业务组件改造" aria-label="上一篇: JS老代码按需加载业务组件改造">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/" data-tooltip="高性能JavaScript学习手记-执行与加载" aria-label="下一篇: 高性能JavaScript学习手记-执行与加载">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="post.share">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://rcong.github.io/2018/10/02/2018/QAP中的Web Chart需求/" title="分享到 Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://rcong.github.io/2018/10/02/2018/QAP中的Web Chart需求/" title="分享到 Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://rcong.github.io/2018/10/02/2018/QAP中的Web Chart需求/" title="分享到 Google+">
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="post.back_to_top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 碳14. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/12/20/2018/JS老代码按需加载业务组件改造/" data-tooltip="JS老代码按需加载业务组件改造" aria-label="上一篇: JS老代码按需加载业务组件改造">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/" data-tooltip="高性能JavaScript学习手记-执行与加载" aria-label="下一篇: 高性能JavaScript学习手记-执行与加载">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="post.share">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://rcong.github.io/2018/10/02/2018/QAP中的Web Chart需求/" title="分享到 Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://rcong.github.io/2018/10/02/2018/QAP中的Web Chart需求/" title="分享到 Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://rcong.github.io/2018/10/02/2018/QAP中的Web Chart需求/" title="分享到 Google+">
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="post.back_to_top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://rcong.github.io/2018/10/02/2018/QAP中的Web Chart需求/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://rcong.github.io/2018/10/02/2018/QAP中的Web Chart需求/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://rcong.github.io/2018/10/02/2018/QAP中的Web Chart需求/">
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.jpeg" alt="作者的图片">
+        
+            <h4 id="about-card-name">碳14</h4>
+        
+            <div id="about-card-bio"><p>咸鱼君’s blog</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>author.job</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover-v1.1.0.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-dbd16rvloemmuxdzniplmnxxvwoz24eya9wol0b7vvmlokgqsjivmb8dnscy.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

@@ -1,0 +1,517 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="碳14">
+    <title>高性能JavaScript学习手记-执行与加载 - 碳14</title>
+    <meta name="author" content="碳14">
+    
+        <meta name="keywords" content="web,javascript,咸鱼君,">
+    
+    
+        <link rel="icon" href="https://rcong.github.io/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"碳14","sameAs":["https://github.com/Rcong","mailto:654846387@qq.com"],"image":"avatar.jpeg"},"articleBody":"\n…虽然会有阻塞,但还是有几招可以减少JavaScript对性能的影响的。\n\n1.script标签的位置当&lt;script&gt;出现在&lt;head&gt;中的时候,比如:\n12345&lt;head&gt;    &lt;script type=\"text/javascript\" src=\"js1.js\"&gt;&lt;/script&gt;    &lt;script type=\"text/javascript\" src=\"js2.js\"&gt;&lt;/script&gt;    &lt;script type=\"text/javascript\" src=\"js3.js\"&gt;&lt;/script&gt;&lt;/head&gt;\n这种加载多个js文件的时候,浏览器就会因先下载执行js代码而阻塞页面渲染从而出现白屏页面(浏览器解析到&lt;body&gt;标签之前,不会渲染页面任何内容),没法预览也没法交互,很差劲的用户体验。\n注意:\n\n现代浏览器支持资源并行下载,只限于&lt;script&gt;下载外部资源的时候不会阻塞其他&lt;script&gt;标签,但会阻塞其他资源的下载。\n下载JavaScript资源是异步的,但是执行JavaScript代码的时候仍是同步的,同样会造成阻塞。\n\n所以把&lt;script&gt;后置到&lt;body&gt;标签的底部,保证执行脚本之前已完成页面渲染,是一种比较常用的JavaScript优化手段。\n\n2.合并多个script标签浏览器解析HTML时遇到&lt;script&gt;都会因为执行脚本而有一定的延迟,对于有src属性的外链则&lt;script&gt;更加,多HTTP请求则会带来更多的性能开销,尽量减少这种延迟,也是一种优化手段,可以合并多个js文件来减少HTTP请求的次数,减少三次握手的次数和多余的HTTP头传输,降低响应时间提高用户体验。网上有许多合并js的方案以及工具,在这不叙述了。\n\n3.使用无阻塞下载JavaScript的方法\n使用script标签的defer和async属性\n使用动态创建的script标签来下载执行JavaScript代码\n使用XHR对象下载JavaScript代码并注入页面3.1.使用script标签的defer和async属性\n\nasync和defer属性都是用于异步加载js文件,期间不会才生阻塞浏览器其他进程,区别在于async是加载完之后自动执行,而defer需要等到页面加载之后再执行,需要注意的一点是这两个属性必须在有src属性的&lt;script&gt;标签中(外链脚本)才有效。下面是demo:\n12345678910111213141516171819202122232425262728293031&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;    &lt;title&gt;defer example&lt;/title&gt;&lt;/head&gt;&lt;body&gt;    &lt;script type=\"text/javascript\" src=\"defer.js\" defer&gt;&lt;/script&gt;    &lt;script&gt;        alert(\"script\");    &lt;/script&gt;    &lt;script&gt;        window.onload= function()&#123;            alert(\"load\");        &#125;    &lt;/script&gt;    &lt;div class=\"demo\"&gt;defer demo&lt;/div&gt;    &lt;div class=\"demo\"&gt;defer demo&lt;/div&gt;    &lt;div class=\"demo\"&gt;defer demo&lt;/div&gt;    &lt;div class=\"demo\"&gt;defer demo&lt;/div&gt;    &lt;div class=\"demo\"&gt;defer demo&lt;/div&gt;    &lt;div class=\"demo\"&gt;defer demo&lt;/div&gt;    &lt;div class=\"demo\"&gt;defer demo&lt;/div&gt;    &lt;div class=\"demo\"&gt;defer demo&lt;/div&gt;    &lt;div class=\"demo\"&gt;defer demo&lt;/div&gt;    &lt;div class=\"demo\"&gt;defer demo&lt;/div&gt;    &lt;div class=\"demo\"&gt;defer demo&lt;/div&gt;    &lt;div class=\"demo\"&gt;defer demo&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;//defer.js的文件下只有alert(\"defer\");一行代码\nasync的例子也是相同的页面结构,这里就不摆例子了,可以戳下面的链接。defer example的链接戳这里!async example的链接戳这里!虽然页面结构一样,但不一样的是\n\n打开defer.html依次看到是: 弹出”script”的alert框=&gt;页面渲染出文字=&gt;弹出”defer”的alert框=&gt;弹出”load”的alert框\n打开async.html依次看到是: 弹出”script”的alert框=&gt;弹出”async”的alert框=&gt;页面渲染出文字=&gt;弹出”load”的alert框3.2.使用动态创建的script标签来下载执行JavaScript代码\n\n1234var script = document.createElement(\"script\");script.type = \"text/javascript\";script.src = \"file.js\";document.getElementByTagName(\"head\")[0].appendChild(script);\nfile.js在script元素添加到页面时就启动下载,使用这种方式的优势在于file.js的下载和执行不会阻塞页面其他进程。下面是普通方式和动态添加脚本方式的两个demo,file.js中仅仅是一个10000次的for循环和之后弹出一个alert框的几句代码。动态添加script元素的Demo链接戳这里!普通的引入script脚本Demo链接戳这里!从demo上可以明显的看出动态加载方式可以在alert框弹出之前先看到页面上的文字,但是普通的方式只有在alert框弹出之后才可以看到页面上的文字。\n我们可以封装一个跨浏览器的读取script脚本并动态创建script标签的函数:\n1234567891011121314151617181920function loadScript(url,callback)&#123;    var script = document.createElement(\"script\");    script.type = \"text/javascript\";    //检测客户端类型    if(script.readyState)&#123;//IE        script.onreadystatechange = function()&#123;            if(script.readyState===\"loaded\"||script.readyState===\"complete\")&#123;                script.onreadystatechange = null;                callback();            &#125;        &#125;    &#125;else&#123;//其他浏览器        script.onload = function()&#123;            callback();        &#125;        &#125;    script.src = url;    document.getElementsByTagName(\"head\")[0].appendChild(script);&#125;\n这类动态加载脚本的方法兼容性好,也比较简单,是一种常用的无阻塞解决方案。\n3.3.使用XHR对象下载JavaScript代码并注入页面另一种无阻塞加载脚本的方式是使用XMLHttpRequest(XHR)对象获取脚本并注入页面中。这种技术会先创建一个XHR对象,然后用他下载JavaScript文件,最后通过常见动态&lt;script&gt;元素将代码注入页面中。\n123456789101112var xhr = new XMLHttpRequest();xhr.open(\"get\",\"file.js\",true);xhr.onreadystatechange = function()&#123;    if(xhr.readyState===4)&#123;        if(xhr.status&gt;=200&amp;&amp;xhr.status&lt;300||xhr.status==304)&#123;            var script = document.createElement(\"script\");            script.type = \"text/javascript\";            script.text = xhr.responseText;            document.body.appendChild(script);        &#125;    &#125;&#125;\nDemo在这儿!快让我到碗里去!以上代码发送GET请求file.js文件,onReadyStateChange检测readyState是否为4(4表示请求完成)和HTTP状态吗是否有效(200表示有效响应,304表示读取缓存)。判断响应有效之后,就动态创建一个&lt;script&gt;标签,内容就是服务器接收到的responseText。\n这种方法的优点以及缺点:\n\n优点:下载JavaScript代码可以不立即执行,且兼容性好适合所有主流浏览器。\n缺点:JavaScript文件必须与所请求页面处于同一个域,这种情况下JavaScript文件不能从CDN下载,不适合大型的Web应用。\n\n\n4.一种推荐的无阻塞方案如果页面有大量的JavaScript代码需要添加,可以先在页面中去外链之前我们封装好的动态读取script脚本的函数loadScript,然后再使用它去加载其他所需脚本,例如:\n123456&lt;script type=\"text/javascript\" src=\"loader.js\"&gt;&lt;/script&gt;&lt;script type=\"text/javascript\"&gt;    loadScript(\"file.js\",function()&#123;        //do something    &#125;);&lt;/script&gt;\n这样只需在第一个&lt;script&gt;下载比较精简的loader.js文件时对页面有些许影响,之后的&lt;script&gt;并不会有太多影响。","dateCreated":"2016-12-02T15:48:41+08:00","dateModified":"2019-07-19T00:25:46+08:00","datePublished":"2016-12-02T15:48:41+08:00","description":"浏览器在处理HTML页面渲染和JavaScript脚本执行的时候是单一进程的,所以在当浏览器在渲染HTML遇到了&lt;script&gt;标签会先去执行标签内的代码(如果是使用src属性加载的外链文件,则先下载再执行),在这个过程中,页面渲染和交互都会被阻塞。","headline":"高性能JavaScript学习手记-执行与加载","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://rcong.github.io/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/"},"publisher":{"@type":"Organization","name":"碳14","sameAs":["https://github.com/Rcong","mailto:654846387@qq.com"],"image":"avatar.jpeg","logo":{"@type":"ImageObject","url":"avatar.jpeg"}},"url":"https://rcong.github.io/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/","keywords":"js"}</script>
+    <meta name="description" content="浏览器在处理HTML页面渲染和JavaScript脚本执行的时候是单一进程的,所以在当浏览器在渲染HTML遇到了&amp;lt;script&amp;gt;标签会先去执行标签内的代码(如果是使用src属性加载的外链文件,则先下载再执行),在这个过程中,页面渲染和交互都会被阻塞。">
+<meta name="keywords" content="js">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="高性能JavaScript学习手记-执行与加载">
+<meta property="og:url" content="https://rcong.github.io/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/index.html">
+<meta property="og:site_name" content="碳14">
+<meta property="og:description" content="浏览器在处理HTML页面渲染和JavaScript脚本执行的时候是单一进程的,所以在当浏览器在渲染HTML遇到了&amp;lt;script&amp;gt;标签会先去执行标签内的代码(如果是使用src属性加载的外链文件,则先下载再执行),在这个过程中,页面渲染和交互都会被阻塞。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-07-18T16:25:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高性能JavaScript学习手记-执行与加载">
+<meta name="twitter:description" content="浏览器在处理HTML页面渲染和JavaScript脚本执行的时候是单一进程的,所以在当浏览器在渲染HTML遇到了&amp;lt;script&amp;gt;标签会先去执行标签内的代码(如果是使用src属性加载的外链文件,则先下载再执行),在这个过程中,页面渲染和交互都会被阻塞。">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://rcong.github.io/assets/images/avatar.jpeg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-c4ozcsklz4kht2pebhp44xorvyverh23toayhn7i6ubrpyedak24hv1v0hyd.min.css">
+    <!--STYLES END-->
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">碳14</a>
+    </div>
+    
+        
+            <a class="header-right-picture " href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.jpeg" alt="作者的图片">
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+    
+                
+                            
+                                
+                                    
+                                        <nav id="sidebar" data-behavior="4">
+                                            <div class="sidebar-container">
+                                                
+                                                    <div class="sidebar-profile">
+                                                        <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpeg" alt="作者的图片">
+                </a>
+                                                        <h4 class="sidebar-profile-name">
+                                                            碳14
+                                                        </h4>
+                                                        
+                                                            <h5 class="sidebar-profile-bio">
+                                                                <p>咸鱼君’s blog</p>
+
+                                                            </h5>
+                                                            
+                                                    </div>
+                                                    
+                                                        
+                                                            <ul class="sidebar-buttons">
+                                                                
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="#about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                            </ul>
+                                                            
+                                                            <ul class="sidebar-buttons">
+                                                                
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                            <a class="sidebar-button-link " href="https://github.com/Rcong" target="_blank" rel="noopener" title="GitHub">
+                                                                                
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                            <a class="sidebar-button-link " href="mailto:654846387@qq.com" target="_blank" rel="noopener" title="邮箱">
+                                                                                
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                            </ul>
+                                                            
+                                                            <ul class="sidebar-buttons">
+                                                                
+                                                                    <li class="sidebar-button">
+                                                                        
+                                                                                    <a class="sidebar-button-link " href="/atom.xml" title="RSS">
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+                                                                    </li>
+                                                                    
+                                                            </ul>
+                                                            
+                                            </div>
+                                        </nav>
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            高性能JavaScript学习手记-执行与加载
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2016-12-02T15:48:41+08:00">
+	
+		    12月 02, 2016
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/技术/">技术</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<p>…虽然会有阻塞,但还是有几招可以减少JavaScript对性能的影响的。</p>
+<hr>
+<h2 id="1-script标签的位置"><a href="#1-script标签的位置" class="headerlink" title="1.script标签的位置"></a><strong>1.script标签的位置</strong></h2><p>当<code>&lt;script&gt;</code>出现在<code>&lt;head&gt;</code>中的时候,比如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"js1.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"js2.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"js3.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;<span class="regexp">/head&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这种加载多个js文件的时候,浏览器就会因先下载执行js代码而阻塞页面渲染从而出现白屏页面(浏览器解析到<code>&lt;body&gt;</code>标签之前,不会渲染页面任何内容),没法预览也没法交互,很差劲的用户体验。</p>
+<p><strong>注意:</strong></p>
+<ul>
+<li><strong>现代浏览器支持资源并行下载,只限于<code>&lt;script&gt;</code>下载外部资源的时候不会阻塞其他<code>&lt;script&gt;</code>标签,但会阻塞其他资源的下载。</strong></li>
+<li><strong>下载JavaScript资源是异步的,但是执行JavaScript代码的时候仍是同步的,同样会造成阻塞。</strong></li>
+</ul>
+<p>所以把<code>&lt;script&gt;</code>后置到<code>&lt;body&gt;</code>标签的底部,保证执行脚本之前已完成页面渲染,是一种比较常用的JavaScript优化手段。</p>
+<hr>
+<h2 id="2-合并多个script标签"><a href="#2-合并多个script标签" class="headerlink" title="2.合并多个script标签"></a><strong>2.合并多个script标签</strong></h2><p>浏览器解析HTML时遇到<code>&lt;script&gt;</code>都会因为执行脚本而有一定的延迟,对于有src属性的外链则<code>&lt;script&gt;</code>更加,多HTTP请求则会带来更多的性能开销,尽量减少这种延迟,也是一种优化手段,可以合并多个js文件来减少HTTP请求的次数,减少三次握手的次数和多余的HTTP头传输,降低响应时间提高用户体验。网上有许多合并js的方案以及工具,在这不叙述了。</p>
+<hr>
+<h2 id="3-使用无阻塞下载JavaScript的方法"><a href="#3-使用无阻塞下载JavaScript的方法" class="headerlink" title="3.使用无阻塞下载JavaScript的方法"></a><strong>3.使用无阻塞下载JavaScript的方法</strong></h2><ol>
+<li>使用script标签的defer和async属性</li>
+<li>使用动态创建的script标签来下载执行JavaScript代码</li>
+<li>使用XHR对象下载JavaScript代码并注入页面<h3 id="3-1-使用script标签的defer和async属性"><a href="#3-1-使用script标签的defer和async属性" class="headerlink" title="3.1.使用script标签的defer和async属性"></a><strong>3.1.使用script标签的defer和async属性</strong></h3></li>
+</ol>
+<p>async和defer属性都是用于异步加载js文件,期间不会才生阻塞浏览器其他进程,区别在于async是加载完之后自动执行,而defer需要等到页面加载之后再执行,需要注意的一点是这两个属性必须在有src属性的<code>&lt;script&gt;</code>标签中(外链脚本)才有效。下面是demo:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;defer example&lt;<span class="regexp">/title&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"defer.js"</span> defer&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        alert(<span class="string">"script"</span>);</span><br><span class="line">    &lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp">    &lt;script&gt;</span></span><br><span class="line"><span class="regexp">        window.onload= function()&#123;</span></span><br><span class="line"><span class="regexp">            alert("load");</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>script&gt;</span><br><span class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"demo"</span>&gt;defer demo&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div class="demo"&gt;defer demo&lt;/</span>div&gt;</span><br><span class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"demo"</span>&gt;defer demo&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div class="demo"&gt;defer demo&lt;/</span>div&gt;</span><br><span class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"demo"</span>&gt;defer demo&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div class="demo"&gt;defer demo&lt;/</span>div&gt;</span><br><span class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"demo"</span>&gt;defer demo&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div class="demo"&gt;defer demo&lt;/</span>div&gt;</span><br><span class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"demo"</span>&gt;defer demo&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div class="demo"&gt;defer demo&lt;/</span>div&gt;</span><br><span class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"demo"</span>&gt;defer demo&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div class="demo"&gt;defer demo&lt;/</span>div&gt;</span><br><span class="line">&lt;<span class="regexp">/body&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>html&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">//defer.js的文件下只有alert("defer");一行代码</span></span><br></pre></td></tr></table></figure>
+<p>async的例子也是相同的页面结构,这里就不摆例子了,可以戳下面的链接。<br><a href="http://book.jirengu.com/Rcong/my-practical-code/defer-async-demo/defer.html" target="_blank" rel="noopener">defer example的链接戳这里!</a><br><a href="http://book.jirengu.com/Rcong/my-practical-code/defer-async-demo/async.html" target="_blank" rel="noopener">async example的链接戳这里!</a><br>虽然页面结构一样,但不一样的是</p>
+<ul>
+<li>打开defer.html依次看到是: 弹出”script”的alert框=&gt;页面渲染出文字=&gt;弹出”defer”的alert框=&gt;弹出”load”的alert框</li>
+<li>打开async.html依次看到是: 弹出”script”的alert框=&gt;弹出”async”的alert框=&gt;页面渲染出文字=&gt;弹出”load”的alert框<h3 id="3-2-使用动态创建的script标签来下载执行JavaScript代码"><a href="#3-2-使用动态创建的script标签来下载执行JavaScript代码" class="headerlink" title="3.2.使用动态创建的script标签来下载执行JavaScript代码"></a><strong>3.2.使用动态创建的script标签来下载执行JavaScript代码</strong></h3></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</span><br><span class="line">script.type = <span class="string">"text/javascript"</span>;</span><br><span class="line">script.src = <span class="string">"file.js"</span>;</span><br><span class="line"><span class="built_in">document</span>.getElementByTagName(<span class="string">"head"</span>)[<span class="number">0</span>].appendChild(script);</span><br></pre></td></tr></table></figure>
+<p>file.js在script元素添加到页面时就启动下载,使用这种方式的优势在于<strong>file.js的下载和执行不会阻塞页面其他进程。</strong><br>下面是普通方式和动态添加脚本方式的两个demo,file.js中仅仅是一个10000次的for循环和之后弹出一个alert框的几句代码。<br><a href="http://book.jirengu.com/Rcong/my-practical-code/dynamic-script-element/dynamic.html" target="_blank" rel="noopener">动态添加script元素的Demo链接戳这里!</a><br><a href="http://book.jirengu.com/Rcong/my-practical-code/dynamic-script-element/normal.html" target="_blank" rel="noopener">普通的引入script脚本Demo链接戳这里!</a><br>从demo上可以明显的看出动态加载方式可以在alert框弹出之前先看到页面上的文字,但是普通的方式只有在alert框弹出之后才可以看到页面上的文字。</p>
+<p>我们可以封装一个跨浏览器的读取script脚本并动态创建script标签的函数:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span>(<span class="params">url,callback</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</span><br><span class="line">    script.type = <span class="string">"text/javascript"</span>;</span><br><span class="line">    <span class="comment">//检测客户端类型</span></span><br><span class="line">    <span class="keyword">if</span>(script.readyState)&#123;<span class="comment">//IE</span></span><br><span class="line">        script.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(script.readyState===<span class="string">"loaded"</span>||script.readyState===<span class="string">"complete"</span>)&#123;</span><br><span class="line">                script.onreadystatechange = <span class="literal">null</span>;</span><br><span class="line">                callback();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;<span class="comment">//其他浏览器</span></span><br><span class="line">        script.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            callback();</span><br><span class="line">        &#125;    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    script.src = url;</span><br><span class="line">    <span class="built_in">document</span>.getElementsByTagName(<span class="string">"head"</span>)[<span class="number">0</span>].appendChild(script);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>这类动态加载脚本的方法兼容性好,也比较简单,是一种常用的无阻塞解决方案。</strong></p>
+<h3 id="3-3-使用XHR对象下载JavaScript代码并注入页面"><a href="#3-3-使用XHR对象下载JavaScript代码并注入页面" class="headerlink" title="3.3.使用XHR对象下载JavaScript代码并注入页面"></a><strong>3.3.使用XHR对象下载JavaScript代码并注入页面</strong></h3><p>另一种无阻塞加载脚本的方式是使用XMLHttpRequest(XHR)对象获取脚本并注入页面中。<br><strong>这种技术会先创建一个XHR对象,然后用他下载JavaScript文件,最后通过常见动态<code>&lt;script&gt;</code>元素将代码注入页面中。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">xhr.open(<span class="string">"get"</span>,<span class="string">"file.js"</span>,<span class="literal">true</span>);</span><br><span class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(xhr.readyState===<span class="number">4</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(xhr.status&gt;=<span class="number">200</span>&amp;&amp;xhr.status&lt;<span class="number">300</span>||xhr.status==<span class="number">304</span>)&#123;</span><br><span class="line">            <span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</span><br><span class="line">            script.type = <span class="string">"text/javascript"</span>;</span><br><span class="line">            script.text = xhr.responseText;</span><br><span class="line">            <span class="built_in">document</span>.body.appendChild(script);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="http://book.jirengu.com/Rcong/my-practical-code/XMLHttpRequest-script-injection/XMLHttpRequest.html" target="_blank" rel="noopener">Demo在这儿!快让我到碗里去!</a><br>以上代码发送GET请求file.js文件,onReadyStateChange检测readyState是否为4(4表示请求完成)和HTTP状态吗是否有效(200表示有效响应,304表示读取缓存)。判断响应有效之后,就动态创建一个<code>&lt;script&gt;</code>标签,内容就是服务器接收到的responseText。</p>
+<p>这种方法的优点以及缺点:</p>
+<ul>
+<li>优点:下载JavaScript代码可以不立即执行,且兼容性好适合所有主流浏览器。</li>
+<li>缺点:JavaScript文件必须与所请求页面处于同一个域,这种情况下JavaScript文件不能从CDN下载,不适合大型的Web应用。</li>
+</ul>
+<hr>
+<h2 id="4-一种推荐的无阻塞方案"><a href="#4-一种推荐的无阻塞方案" class="headerlink" title="4.一种推荐的无阻塞方案"></a><strong>4.一种推荐的无阻塞方案</strong></h2><p>如果页面有大量的JavaScript代码需要添加,可以先在页面中去外链之前我们封装好的动态读取script脚本的函数loadScript,然后再使用它去加载其他所需脚本,例如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"loader.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">    loadScript(<span class="string">"file.js"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//do something</span></span><br><span class="line">    &#125;);</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这样只需在第一个<code>&lt;script&gt;</code>下载比较精简的loader.js文件时对页面有些许影响,之后的<code>&lt;script&gt;</code>并不会有太多影响。</p>
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/js/">js</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/02/2018/QAP中的Web Chart需求/" data-tooltip="QAP中的Web Chart需求" aria-label="上一篇: QAP中的Web Chart需求">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="post.share">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://rcong.github.io/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/" title="分享到 Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://rcong.github.io/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/" title="分享到 Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://rcong.github.io/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/" title="分享到 Google+">
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="post.back_to_top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 碳14. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/02/2018/QAP中的Web Chart需求/" data-tooltip="QAP中的Web Chart需求" aria-label="上一篇: QAP中的Web Chart需求">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="post.share">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://rcong.github.io/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/" title="分享到 Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://rcong.github.io/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/" title="分享到 Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://rcong.github.io/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/" title="分享到 Google+">
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="post.back_to_top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://rcong.github.io/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://rcong.github.io/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://rcong.github.io/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/">
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.jpeg" alt="作者的图片">
+        
+            <h4 id="about-card-name">碳14</h4>
+        
+            <div id="about-card-bio"><p>咸鱼君’s blog</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>author.job</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover-v1.1.0.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-dbd16rvloemmuxdzniplmnxxvwoz24eya9wol0b7vvmlokgqsjivmb8dnscy.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

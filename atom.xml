@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://rcong.github.io/"/>
-  <updated>2019-07-18T16:25:46.000Z</updated>
+  <updated>2019-07-19T13:43:14.000Z</updated>
   <id>https://rcong.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>QAPDemo二维码</title>
+    <link href="https://rcong.github.io/2019/07/17/2019/QAPDemo%E4%BA%8C%E7%BB%B4%E7%A0%81/"/>
+    <id>https://rcong.github.io/2019/07/17/2019/QAPDemo二维码/</id>
+    <published>2019-07-17T13:37:02.000Z</published>
+    <updated>2019-07-19T13:43:14.000Z</updated>
+    
+    <content type="html"><![CDATA[<!-- excerpt --><h2 id="WebDemo的二维码"><a href="#WebDemo的二维码" class="headerlink" title="WebDemo的二维码"></a>WebDemo的二维码</h2><p><img src="https://cdn.nlark.com/yuque/0/2019/png/103782/1563543565161-a7458630-a00a-41ad-ab4c-48b576c3f44d.png" alt="WebDemo"></p><h2 id="AlertDialogDemo的二维码"><a href="#AlertDialogDemo的二维码" class="headerlink" title="AlertDialogDemo的二维码"></a>AlertDialogDemo的二维码</h2><p><img src="https://cdn.nlark.com/yuque/0/2019/png/103782/1563543587536-79ee11d1-74b5-4a7c-b764-1285ce83e606.png" alt="AlertDialogDemo"></p><h2 id="PickerCardDemo的二维码"><a href="#PickerCardDemo的二维码" class="headerlink" title="PickerCardDemo的二维码"></a>PickerCardDemo的二维码</h2><p><img src="https://cdn.nlark.com/yuque/0/2019/png/103782/1563543612089-d0bad5d3-afd7-4bfb-bc41-1e70f7e5c1c4.png" alt="PickerCardDemo"></p><h2 id="RateStarDemo的二维码"><a href="#RateStarDemo的二维码" class="headerlink" title="RateStarDemo的二维码"></a>RateStarDemo的二维码</h2><p><img src="https://cdn.nlark.com/yuque/0/2019/png/103782/1563543651953-506d4038-f653-4aef-a210-c873663328b4.png" alt="RateStarDemo"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;!-- excerpt --&gt;
+&lt;h2 id=&quot;WebDemo的二维码&quot;&gt;&lt;a href=&quot;#WebDemo的二维码&quot; class=&quot;headerlink&quot; title=&quot;WebDemo的二维码&quot;&gt;&lt;/a&gt;WebDemo的二维码&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https:/
+      
+    
+    </summary>
+    
+      <category term="技术" scheme="https://rcong.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="QAP" scheme="https://rcong.github.io/tags/QAP/"/>
+    
+  </entry>
   
   <entry>
     <title>如何理解TCP中「三次握手」和「四次挥手」</title>

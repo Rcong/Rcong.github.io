@@ -1,617 +1,1269 @@
-
 <!DOCTYPE html>
-<html lang="zh-cn">
-    
-<head>
-    <meta charset="UTF-8">
-    <meta name="referrer" content="no-referrer" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="碳14">
-    <title>碳14</title>
-    <meta name="author" content="碳14">
-    
-        <meta name="keywords" content="web,javascript,咸鱼君,">
-    
-    
-        <link rel="icon" href="https://rcong.github.io/assets/images/favicon.png">
-    
-    
-        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
-    
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"Website","@id":"https://rcong.github.io","author":{"@type":"Person","name":"碳14","sameAs":["https://github.com/Rcong","mailto:654846387@qq.com"],"image":"avatar.jpeg"},"name":"碳14","description":"咸鱼君's blog","url":"https://rcong.github.io","keywords":"web, javascript, 咸鱼君"}</script>
-    <meta name="description" content="咸鱼君&apos;s blog">
-<meta name="keywords" content="web,javascript,咸鱼君">
-<meta property="og:type" content="blog">
-<meta property="og:title" content="碳14">
-<meta property="og:url" content="https://rcong.github.io/index.html">
-<meta property="og:site_name" content="碳14">
-<meta property="og:description" content="咸鱼君&apos;s blog">
-<meta property="og:locale" content="zh-cn">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="碳14">
-<meta name="twitter:description" content="咸鱼君&apos;s blog">
-    
-    
-        
-    
-    
-        <meta property="og:image" content="https://rcong.github.io/assets/images/avatar.jpeg"/>
-    
-    
-    
-    
-    <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-c4ozcsklz4kht2pebhp44xorvyverh23toayhn7i6ubrpyedak24hv1v0hyd.min.css">
-    <!--STYLES END-->
-    
+<html data-theme="light">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+    />
+    <link
+      rel="icon"
+      href="https://shop.vistopia.com.cn/static/img/favicon.ico"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="./16_files/index.min.css"
+    />
+    <!-- <script src="./16_files/hm.js"></script>
+    <script src="./16_files/index.min.js"></script> -->
+    <style type="text/css">
+      .danmu {
+        overflow: hidden;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        -ms-user-select: none;
+      }
+      .danmu > * {
+        position: absolute;
+        white-space: nowrap;
+      }
+      .danmu-switch {
+        width: 32px;
+        height: 20px;
+        border-radius: 100px;
+        background-color: #ccc;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+        text-align: center;
+        margin: 10px auto;
+      }
+      .danmu-switch.danmu-switch-active {
+        padding-left: 12px;
+        background-color: #f85959;
+      }
+      .danmu-switch span.txt {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        display: block;
+        border-radius: 100px;
+        background-color: #fff;
+        -webkit-box-shadow: -2px 0 0 0 rgba(0, 0, 0, 0.04);
+        box-shadow: -2px 0 0 0 rgba(0, 0, 0, 0.04);
+        font-family: PingFangSC;
+        font-size: 10px;
+        font-weight: 500;
+        color: #f44336;
+      }
+    </style>
+    <style type="text/css">
+      xg-text-track.xg-text-track {
+        font-family: "PingFang SC", "SF Pro SC", "SF Pro Text", "SF Pro Icons",
+          "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        position: absolute;
+        bottom: 0;
+        color: #fff;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+      }
+      xg-text-track.xg-text-track.text-track-no-fitvideo {
+        margin-bottom: 2%;
+      }
+      xg-text-track.xg-text-track.text-track-hide {
+        opacity: 0;
+        visibility: hidden;
+      }
+      xg-text-track.xg-text-track.text-track-show {
+        opacity: 1;
+        visibility: visible;
+      }
+      xg-text-track.xg-text-track xg-text-track-inner {
+        display: block;
+        max-width: 92%;
+      }
+      xg-text-track.xg-text-track xg-text-track-span {
+        display: -webkit-box;
+        text-align: center;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        padding: 1px 4px;
+        -webkit-line-clamp: 1;
+        line-height: 120%;
+        word-break: break-word;
+      }
+      xg-text-track.xg-text-track xg-text-track-span.text-track-deputy {
+        font-size: 75%;
+      }
+      xg-text-track.xg-text-track xg-text-track-span.text-track-single {
+        -webkit-line-clamp: 1;
+      }
+      xg-text-track.xg-text-track xg-text-track-span.text-track-double {
+        -webkit-line-clamp: 2;
+      }
+      xg-text-track.xg-text-track xg-text-track-span.text-track-three {
+        -webkit-line-clamp: 3;
+      }
+      xg-text-track.xg-text-track.text-track-bg xg-text-track-inner {
+        background-color: rgba(0, 0, 0, 0.54);
+        border-radius: 2px;
+      }
+      xg-text-track.xg-text-track.text-track-stroke xg-text-track-inner {
+        background-color: none;
+        border-radius: 0;
+        text-shadow: -1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7),
+          1px -1px 0 rgba(0, 0, 0, 0.7), -1px -1px 0 rgba(0, 0, 0, 0.7);
+      }
+    </style>
+    <style type="text/css">
+      .danmu {
+        overflow: hidden;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        -ms-user-select: none;
+      }
+      .danmu > * {
+        position: absolute;
+        white-space: nowrap;
+      }
+      .danmu-switch {
+        width: 32px;
+        height: 20px;
+        border-radius: 100px;
+        background-color: #ccc;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+        text-align: center;
+        margin: 10px auto;
+      }
+      .danmu-switch.danmu-switch-active {
+        padding-left: 12px;
+        background-color: #f85959;
+      }
+      .danmu-switch span.txt {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        display: block;
+        border-radius: 100px;
+        background-color: #ffffff;
+        -webkit-box-shadow: -2px 0 0 0 rgba(0, 0, 0, 0.04);
+        box-shadow: -2px 0 0 0 rgba(0, 0, 0, 0.04);
+        font-family: PingFangSC;
+        font-size: 10px;
+        font-weight: 500;
+        color: #f44336;
+      }
+    </style>
+    <style>
+      html {
+        height: 100%;
+        scroll-behavior: smooth;
+        /* filter: grayscale(.5); */
+      }
+      body {
+        -webkit-text-size-adjust: 100%;
+      }
+    </style>
+    <script>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?5e6a1cf9cb572a0995800d3c9062d28c";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+    <link rel="shortcut icon" href="https://shop.vistopia.com.cn/favicon.ico" />
+    <link
+      href="./16_files/app.8f68a99ef5b4430c6d1932cc26633a7f.css"
+      rel="stylesheet"
+    />
+    <script>
+      /eruda=true/.test(window.location) &&
+        (document.write(
+          '<script src="//cdn.jsdelivr.net/npm/eruda"><\/script>'
+        ),
+        document.write("<script>eruda.init();<\/script>"));
+    </script>
+    <script>
+      if (!window.isApp) {
+        (function () {
+          if (
+            typeof WeixinJSBridge == "object" &&
+            typeof WeixinJSBridge.invoke == "function"
+          ) {
+            handleFontSize();
+          } else {
+            if (document.addEventListener) {
+              document.addEventListener(
+                "WeixinJSBridgeReady",
+                handleFontSize,
+                false
+              );
+            } else if (document.attachEvent) {
+              document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+              document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+            }
+          }
+          function handleFontSize() {
+            console.log("handleFontSize");
+            WeixinJSBridge.invoke("setFontSizeCallback", { fontSize: 0 });
+            WeixinJSBridge.on("menu:setfont", function () {
+              WeixinJSBridge.invoke("setFontSizeCallback", { fontSize: 0 });
+            });
+          }
+        })();
+      }
+    </script>
+    <script
+      type="text/javascript"
+      charset="utf-8"
+      async=""
+      src="./16_files/0.6df1de.js"
+    ></script>
+    <script
+      type="text/javascript"
+      charset="utf-8"
+      async=""
+      src="./16_files/24.8c8a42.js"
+    ></script>
+    <title>16. 国家能力越强越好吗？苏联往事</title>
+    <style id="__web-inspector-hide-shortcut-style__">
+      .__web-inspector-hide-shortcut__,
+      .__web-inspector-hide-shortcut__ *,
+      .__web-inspector-hidebefore-shortcut__::before,
+      .__web-inspector-hideafter-shortcut__::after {
+        visibility: hidden !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!---->
+      <div data-v-4228c374="">
+        <div data-v-4228c374="" class="course">
+          <div
+            data-v-4228c374=""
+            class="toper-unlogin __web-inspector-hide-shortcut__"
+          >
+            <div data-v-4228c374="" class="toper-logo"></div>
+            <div data-v-4228c374="" class="toper-right">
+              <div data-v-4228c374="" class="toper_bt">
+                <div data-v-796b6465="" data-v-4228c374="">
+                  <div data-v-796b6465="" class="open_app">
+                    <a
+                      data-v-796b6465=""
+                      href="vistopia://article?article_id=307542"
+                      >打开App</a
+                    >
+                  </div>
+                </div>
+              </div>
+              <div data-v-4228c374="" class="toper_back">回首页</div>
+              <div data-v-4228c374="" class="toper_icon"></div>
+            </div>
+          </div>
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <div data-v-4228c374="">
+            <div data-v-4228c374=""></div>
+            <div data-v-4228c374="" class="course-content first">
+              <div data-v-4228c374="" class="author-head article-margin"></div>
+              <div data-v-4228c374="" class="dol-sign">
+                <div data-v-4228c374="" class="dol_tit">第三章 国家建构</div>
+                <div data-v-4228c374="" class="cent">
+                  <div data-v-4228c374="" class="dol-img">
+                    <img
+                      data-v-4228c374=""
+                      src="./16_files/1594201041452.jpg"
+                      alt=""
+                    />
+                  </div>
+                  <div data-v-4228c374="" class="dol-top">
+                    <div data-v-4228c374="" class="jiange">
+                      <div data-v-4228c374="" class="dol-title">刘瑜</div>
+                    </div>
+                    <div data-v-4228c374="" class="dol_t_tit">
+                      可能性的艺术：比较政治学30讲
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div data-v-4228c374="" class="course-head article-margin">
+                <div data-v-4228c374="" class="course-head-title-view">
+                  <p data-v-4228c374="" class="course-head-title">
+                    16. 国家能力越强越好吗？苏联往事
+                  </p>
+                </div>
+              </div>
+              <div data-v-4228c374="" class="klxAudio">
+                <div data-v-4228c374="" id="audio_volcano">
+                  <div
+                    class="xgplayer xgplayer-inactive xgplayer-pc xgplayer-nostart"
+                    style="width: 100%; height: 100%"
+                  >
+                    <video
+                      class=""
+                      playsinline="true"
+                      x5-playsinline="true"
+                      webkit-playsinline="true"
+                      tabindex="2"
+                      mediatype="video"
+                      src="http://cdn.vistopia.com.cn/1598370635299.mp3"
+                    ></video
+                    ><xg-bar
+                      class="xg-top-bar top-bar-autohide"
+                      data-index="-1"
+                    ></xg-bar
+                    ><xg-bar class="xg-left-bar" data-index="-1"></xg-bar
+                    ><xg-bar class="xg-right-bar" data-index="-1"></xg-bar>
 
-    
-</head>
-
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
-
-
-    
-        
-            
-        
-    
-
-<header id="header" data-behavior="1">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <div class="header-title">
-        <a class="header-title-link" href="/ ">碳14</a>
+                    <xgplayer-error
+                      class="xgplayer-error"
+                      data-index="0"
+                    ></xgplayer-error>
+                    <div class="xgplayer-unmute" data-index="0"></div>
+                    <xg-prompt
+                      class="xgplayer-prompt controls-follow"
+                      data-index="0"
+                    >
+                      <span class="xgplayer-prompt-detail"></span> </xg-prompt
+                    ><xg-enter class="xgplayer-enter" data-index="0"
+                      ><div class="xgplayer-enter-spinner">
+                        <div class="xgplayer-enter-bar1"></div>
+                        <div class="xgplayer-enter-bar2"></div>
+                        <div class="xgplayer-enter-bar3"></div>
+                        <div class="xgplayer-enter-bar4"></div>
+                        <div class="xgplayer-enter-bar5"></div>
+                        <div class="xgplayer-enter-bar6"></div>
+                        <div class="xgplayer-enter-bar7"></div>
+                        <div class="xgplayer-enter-bar8"></div>
+                        <div class="xgplayer-enter-bar9"></div>
+                        <div class="xgplayer-enter-bar10"></div>
+                        <div class="xgplayer-enter-bar11"></div>
+                        <div class="xgplayer-enter-bar12"></div></div></xg-enter
+                    ><xg-loading class="xgplayer-loading" data-index="0">
+                      <xg-loading-inner
+                        ><svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="100"
+                          height="100"
+                          viewBox="-5 -5 110 110"
+                        >
+                          <path
+                            d="M100,50A50,50,0,1,1,50,0"
+                            stroke-width="5"
+                            stroke="#ddd"
+                            stroke-dasharray="236"
+                            fill="none"
+                          ></path></svg
+                      ></xg-loading-inner> </xg-loading
+                    ><xg-start class="xgplayer-start" data-index="0">
+                      <xg-start-inner
+                        ><svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="60"
+                          height="60"
+                          viewBox="0 0 60 60"
+                          fill="none"
+                          class="xg-icon-play"
+                        >
+                          <rect
+                            width="60"
+                            height="60"
+                            rx="30"
+                            fill="#000"
+                            fill-opacity=".4"
+                          ></rect>
+                          <path
+                            d="M40.243 28.3a2 2 0 010 3.401L24.06 41.712c-1.332.825-3.052-.134-3.052-1.7V19.988c0-1.566 1.72-2.525 3.052-1.7l16.184 10.01z"
+                            fill="#fff"
+                          ></path></svg
+                        ><svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="pause xg-icon-pause"
+                          width="28"
+                          height="40"
+                          viewBox="3 -4 28 40"
+                        >
+                          <path
+                            fill="#fff"
+                            transform="scale(0.0320625 0.0320625)"
+                            d="M598,214h170v596h-170v-596zM256 810v-596h170v596h-170z"
+                          ></path></svg
+                      ></xg-start-inner> </xg-start
+                    ><xg-poster
+                      class="xgplayer-poster"
+                      style="background-image: url(undefined)"
+                      data-index="0"
+                    >
+                    </xg-poster
+                    ><xg-replay class="xgplayer-replay" data-index="0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="72"
+                        height="72"
+                        viewBox="0 0 72 72"
+                      >
+                        <g fill="#FFF" fill-rule="evenodd">
+                          <circle
+                            fill-opacity=".3"
+                            cx="36"
+                            cy="36"
+                            r="36"
+                          ></circle>
+                          <path
+                            d="M40.167 32.667a.833.833 0 01-.834-.834v-1.666c0-.46.373-.834.834-.834h5.409a11.653 11.653 0 00-9.576-5c-6.443 0-11.667 5.224-11.667 11.667S29.557 47.667 36 47.667c5.285 0 9.749-3.514 11.183-8.333h3.445C49.112 46.014 43.138 51 36 51c-8.284 0-15-6.716-15-15 0-8.284 6.716-15 15-15 4.713 0 8.918 2.173 11.668 5.572l-.001-4.739c0-.46.373-.833.833-.833h1.667c.46 0 .833.373.833.833V31c0 .879-.68 1.598-1.542 1.662l-.125.005h-9.166z"
+                          ></path>
+                        </g></svg
+                      ><xg-replay-txt
+                        class="xgplayer-replay-txt"
+                        lang-key="REPLAY"
+                        >重播</xg-replay-txt
+                      > </xg-replay
+                    ><xg-controls
+                      class="xgplayer-controls controls-autohide"
+                      unselectable="on"
+                      onselectstart="return false"
+                      data-index="0"
+                    >
+                      <xg-inner-controls class="xg-inner-controls xg-pos">
+                        <xg-left-grid class="xg-left-grid">
+                          <xg-icon
+                            class="xgplayer-play"
+                            data-index="0"
+                            data-state="pause"
+                          >
+                            <div class="xgplayer-icon">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="none"
+                                class="xg-icon-play"
+                              >
+                                <path
+                                  d="M14.121 8.299a2 2 0 010 3.402l-7.94 4.91c-1.332.825-3.051-.133-3.051-1.7V5.09c0-1.567 1.72-2.525 3.052-1.701l7.939 4.911z"
+                                  fill="#fff"
+                                ></path></svg
+                              ><svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="none"
+                                class="xg-icon-pause"
+                              >
+                                <rect
+                                  x="5.313"
+                                  y="3.75"
+                                  width="3.125"
+                                  height="12.5"
+                                  rx=".625"
+                                  fill="#fff"
+                                ></rect>
+                                <rect
+                                  x="11.563"
+                                  y="3.75"
+                                  width="3.125"
+                                  height="12.5"
+                                  rx=".625"
+                                  fill="#fff"
+                                ></rect>
+                              </svg>
+                            </div>
+                            <div class="xg-tips" lang-key="PLAY_TIPS">
+                              播放
+                            </div> </xg-icon
+                          ><xg-icon
+                            class="xgplayer-time"
+                            data-index="3"
+                            style="display: block"
+                          >
+                            <span class="time-current">00:00</span>
+                            <span class="time-separator">/</span>
+                            <span class="time-duration">25:18</span>
+                            <span class="time-live-tag" style="display: none"
+                              >直播</span
+                            >
+                          </xg-icon></xg-left-grid
+                        >
+                        <xg-center-grid class="xg-center-grid">
+                          <xg-progress class="xgplayer-progress" data-index="0">
+                            <xg-outer class="xgplayer-progress-outer">
+                              <xg-inners class="progress-list"
+                                ><xg-inner
+                                  class="xgplayer-progress-inner"
+                                  style="flex: 1"
+                                  ><xg-cache
+                                    class="xgplayer-progress-cache"
+                                    style="width: 0%"
+                                  ></xg-cache
+                                  ><xg-played
+                                    class="xgplayer-progress-played"
+                                    style="background: ; width: 0"
+                                  ></xg-played></xg-inner></xg-inners
+                              ><xg-progress-btn
+                                class="xgplayer-progress-btn"
+                              ></xg-progress-btn>
+                            </xg-outer>
+                            <div
+                              class="xg-spot-info short-line no-thumbnail"
+                              data-index="1"
+                            >
+                              <div class="xg-spot-content">
+                                <div class="xg-spot-thumbnail">
+                                  <span class="xg-spot-time"></span>
+                                </div>
+                                <div class="xg-spot-text">
+                                  <span class="spot-inner-text"></span>
+                                </div>
+                              </div>
+                              <div class="xgplayer-progress-point">00:00</div>
+                              <div class="xg-spot-line"></div>
+                            </div>
+                          </xg-progress>
+                        </xg-center-grid>
+                        <xg-right-grid class="xg-right-grid">
+                          <xg-icon class="xgplayer-fullscreen" data-index="0">
+                            <div class="xgplayer-icon">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="none"
+                                class="xg-get-fullscreen"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M3.778 2h4.444v1.778H3.778v4.444H2V3.778C2 2.796 2.796 2 3.778 2zM2 11.778v4.444C2 17.204 2.796 18 3.778 18h4.444v-1.778H4.823l2.313-2.313a.9.9 0 00-1.272-1.273l-2.086 2.086v-2.944H2zm14.222 0v4.444h-4.444V18h4.444c.982 0 1.778-.796 1.778-1.778v-4.444h-1.778zM18 8.222V3.778C18 2.796 17.204 2 16.222 2h-4.444v1.778h2.945l-2.587 2.586a.9.9 0 101.273 1.273l2.813-2.813v3.398H18z"
+                                  fill="#fff"
+                                ></path></svg
+                              ><svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="21"
+                                height="20"
+                                fill="none"
+                                class="xg-exit-fullscreen"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M3.892 2h4.445v1.778H3.892v4.444H2.114V3.778C2.114 2.796 2.91 2 3.892 2zm4.445 16v-4.444c0-.982-.796-1.778-1.778-1.778H2.114v1.778h2.944L2.264 16.35a.9.9 0 001.272 1.273l2.988-2.987a.918.918 0 00.035-.037V18h1.778zm8-6.222v4.444h-4.445V18h4.445c.981 0 1.777-.796 1.777-1.778v-4.444h-1.777zM11.892 2v4.445c0 .981.796 1.777 1.778 1.777h4.444V6.445H15.17l2.568-2.568a.9.9 0 10-1.273-1.273L13.67 5.4V2h-1.778z"
+                                  fill="#fff"
+                                ></path>
+                              </svg>
+                            </div>
+                            <div class="xg-tips" lang-key="FULLSCREEN_TIPS">
+                              进入全屏
+                            </div>
+                          </xg-icon>
+                          <xg-icon class="xgplayer-pip" data-index="2.5">
+                            <div class="xgplayer-icon">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                class="xg-get-pip"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M16.5 4.3H3.5C3.38954 4.3 3.3 4.38954 3.3 4.5V15.5C3.3 15.6105 3.38954 15.7 3.5 15.7H8.50005L8.50006 17.5H3.5C2.39543 17.5 1.5 16.6046 1.5 15.5V4.5C1.5 3.39543 2.39543 2.5 3.5 2.5H16.5C17.6046 2.5 18.5 3.39543 18.5 4.5V8.5H16.7V4.5C16.7 4.38954 16.6105 4.3 16.5 4.3ZM12 11.5C11.4477 11.5 11 11.9477 11 12.5L11 16.5C11 17.0523 11.4478 17.5 12 17.5H17.5C18.0523 17.5 18.5 17.0523 18.5 16.5L18.5 12.5C18.5 11.9477 18.0523 11.5 17.5 11.5H12Z"
+                                  fill="white"
+                                ></path></svg
+                              ><svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                class="xg-exit-pip"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M16.5 4.3H3.5C3.38954 4.3 3.3 4.38954 3.3 4.5V15.5C3.3 15.6105 3.38954 15.7 3.5 15.7H8.50005L8.50006 17.5H3.5C2.39543 17.5 1.5 16.6046 1.5 15.5V4.5C1.5 3.39543 2.39543 2.5 3.5 2.5H16.5C17.6046 2.5 18.5 3.39543 18.5 4.5V8.5H16.7V4.5C16.7 4.38954 16.6105 4.3 16.5 4.3ZM12 11.5C11.4477 11.5 11 11.9477 11 12.5L11 16.5C11 17.0523 11.4478 17.5 12 17.5H17.5C18.0523 17.5 18.5 17.0523 18.5 16.5L18.5 12.5C18.5 11.9477 18.0523 11.5 17.5 11.5H12Z"
+                                  fill="white"
+                                ></path>
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M9.4998 7.7C9.77595 7.7 9.9998 7.47614 9.9998 7.2V6.5C9.9998 6.22386 9.77595 6 9.4998 6H5.5402L5.52754 6.00016H5.5C5.22386 6.00016 5 6.22401 5 6.50016V10.4598C5 10.7359 5.22386 10.9598 5.5 10.9598H6.2C6.47614 10.9598 6.7 10.7359 6.7 10.4598V8.83005L8.76983 10.9386C8.96327 11.1357 9.27984 11.1386 9.47691 10.9451L9.97645 10.4548C10.1735 10.2613 10.1764 9.94476 9.983 9.7477L7.97289 7.7H9.4998Z"
+                                  fill="white"
+                                ></path>
+                              </svg>
+                            </div>
+                            <div class="xg-tips" lang-key="PIP">
+                              画中画
+                            </div> </xg-icon
+                          ><xg-icon
+                            class="xgplayer-volume"
+                            data-state="normal"
+                            data-index="2.6"
+                          >
+                            <div class="xgplayer-icon">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="none"
+                                class="xg-volume-small"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M9.867 2.5h.55c.44 0 .799.34.83.771l.003.062v13.334c0 .44-.34.799-.771.83l-.062.003h-.55a.833.833 0 01-.444-.128l-.064-.045-4.867-3.744a.831.831 0 01-.322-.59l-.003-.07V7.077c0-.235.099-.458.271-.615l.054-.045L9.36 2.673a.832.832 0 01.43-.17l.078-.003h.55-.55zM2.5 6.667c.23 0 .417.186.417.416v5.834c0 .23-.187.416-.417.416h-.833a.417.417 0 01-.417-.416V7.083c0-.23.187-.416.417-.416H2.5zm11.768.46A4.153 4.153 0 0115.417 10c0 1.12-.442 2.137-1.162 2.886a.388.388 0 01-.555-.007l-.577-.578c-.176-.176-.156-.467.009-.655A2.49 2.49 0 0013.75 10a2.49 2.49 0 00-.61-1.636c-.163-.188-.182-.477-.006-.653l.578-.578a.388.388 0 01.556-.006z"
+                                  fill="#fff"
+                                ></path></svg
+                              ><svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="none"
+                                class="xg-volume"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M9.867 2.5h.55c.44 0 .799.34.83.771l.003.062v13.334c0 .44-.34.799-.771.83l-.062.003h-.55a.833.833 0 01-.444-.128l-.064-.045-4.867-3.744a.831.831 0 01-.322-.59l-.003-.07V7.077c0-.235.099-.458.271-.615l.054-.045L9.36 2.673a.832.832 0 01.43-.17l.078-.003h.55-.55zm6.767 2.278A7.474 7.474 0 0118.75 10a7.477 7.477 0 01-2.128 5.234.4.4 0 01-.57-.004l-.587-.586a.442.442 0 01.005-.617A5.812 5.812 0 0017.083 10c0-1.557-.61-2.97-1.603-4.017a.442.442 0 01-.003-.615l.586-.586a.4.4 0 01.57-.004zM2.5 6.667c.23 0 .417.186.417.416v5.834c0 .23-.187.416-.417.416h-.833a.417.417 0 01-.417-.416V7.083c0-.23.187-.416.417-.416H2.5zm11.768.46A4.153 4.153 0 0115.417 10c0 1.12-.442 2.137-1.162 2.886a.388.388 0 01-.555-.007l-.577-.578c-.176-.176-.156-.467.009-.655A2.49 2.49 0 0013.75 10a2.49 2.49 0 00-.61-1.636c-.163-.188-.182-.477-.006-.653l.578-.578a.388.388 0 01.556-.006z"
+                                  fill="#fff"
+                                ></path></svg
+                              ><svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="none"
+                                class="xg-volume-mute"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M10.045 2.5h.55c.44 0 .8.34.831.771l.003.062v13.334c0 .44-.34.799-.771.83l-.063.003h-.55a.833.833 0 01-.443-.128l-.065-.045-4.866-3.744a.831.831 0 01-.323-.59l-.003-.07V7.077c0-.235.1-.458.272-.615l.054-.045 4.866-3.744a.832.832 0 01.43-.17l.078-.003h.55-.55zM2.68 6.667c.23 0 .416.186.416.416v5.834c0 .23-.186.416-.416.416h-.834a.417.417 0 01-.416-.416V7.083c0-.23.186-.416.416-.416h.834zm10.467.294a.417.417 0 01.59 0l1.767 1.768L17.27 6.96a.417.417 0 01.589 0l.59.59a.417.417 0 010 .589L16.68 9.908l1.768 1.767c.15.15.162.387.035.55l-.035.04-.589.589a.417.417 0 01-.59 0l-1.767-1.768-1.768 1.768a.417.417 0 01-.59 0l-.588-.59a.417.417 0 010-.589l1.767-1.768-1.767-1.767a.417.417 0 01-.035-.55l.035-.04.589-.589z"
+                                  fill="#fff"
+                                ></path>
+                              </svg>
+                            </div>
+                            <xg-slider class="xgplayer-slider">
+                              <div class="xgplayer-bar">
+                                <xg-drag
+                                  class="xgplayer-drag"
+                                  style="height: 60%"
+                                ></xg-drag>
+                              </div>
+                            </xg-slider>
+                          </xg-icon>
+                          <div class="xgplayer-danmu" data-index="3">
+                            <div class="icon-warp">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="none"
+                                class="xgplayer-danmu-close-svg"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M16.5 4.106h-13a.3.3 0 00-.3.3v11.186a.3.3 0 00.3.3h7.111v1.7H3.5a2 2 0 01-2-2V4.406a2 2 0 012-2h13a2 2 0 012 2V10h-1.7V4.406a.3.3 0 00-.3-.3zM6 7.722c0-.42.34-.76.76-.76h6.58a.76.76 0 110 1.52H6.76a.76.76 0 01-.76-.76zm0 3.037c0-.42.34-.759.76-.759h3.543a.76.76 0 110 1.519H6.759a.76.76 0 01-.759-.76zm7.202 2.303a2.2 2.2 0 003.011 3.011l-3.011-3.01zm3.915 1.992a2.2 2.2 0 00-2.896-2.896l2.896 2.896zm1.383-.879a3.4 3.4 0 11-6.8 0 3.4 3.4 0 016.8 0z"
+                                  fill="#fff"
+                                ></path>
+                              </svg>
+                            </div>
+                            <div class="tips-wrap">打开弹幕</div>
+                          </div>
+                          <xg-icon
+                            class="xg-options-icon xgplayer-definition"
+                            data-index="3"
+                          >
+                            <div class="xgplayer-icon btn-text">
+                              <span class="icon-text"></span>
+                            </div>
+                            <ul class="xg-options-list">
+                              <li
+                                class="option-item selected"
+                                url="http://cdn.vistopia.com.cn/1598370635299.mp3"
+                                definition=""
+                                showtext=""
+                                iscurrent="true"
+                                selected="true"
+                                data-index="0"
+                              >
+                                <span></span>
+                              </li></ul></xg-icon
+                          ><xg-icon
+                            class="xg-options-icon xgplayer-multiline"
+                            data-index="4"
+                          >
+                            <div class="xgplayer-icon btn-text">
+                              <span class="icon-text"></span>
+                            </div>
+                            <ul class="xg-options-list">
+                              <li
+                                class="option-item selected"
+                                lineid=""
+                                showtext="undefined"
+                                iscurrent="true"
+                                selected="true"
+                                data-index="0"
+                              >
+                                <span>undefined</span>
+                              </li>
+                            </ul></xg-icon
+                          ><xg-icon
+                            class="xg-options-icon xgplayer-playbackrate show"
+                            data-index="4"
+                          >
+                            <div class="xgplayer-icon btn-text">
+                              <span class="icon-text">倍速</span>
+                            </div>
+                            <ul class="xg-options-list">
+                              <li
+                                class="option-item"
+                                rate="2"
+                                showtext="2x"
+                                data-index="0"
+                              >
+                                <span>2x</span>
+                              </li>
+                              <li
+                                class="option-item"
+                                rate="1.5"
+                                showtext="1.5x"
+                                data-index="1"
+                              >
+                                <span>1.5x</span>
+                              </li>
+                              <li
+                                class="option-item"
+                                rate="1.25"
+                                showtext="1.25x"
+                                data-index="2"
+                              >
+                                <span>1.25x</span>
+                              </li>
+                              <li
+                                class="option-item selected"
+                                rate="1"
+                                selected="true"
+                                showtext="1x"
+                                data-index="3"
+                              >
+                                <span>1x</span>
+                              </li>
+                              <li
+                                class="option-item"
+                                rate="0.75"
+                                showtext="0.75x"
+                                data-index="4"
+                              >
+                                <span>0.75x</span>
+                              </li>
+                              <li
+                                class="option-item"
+                                rate="0.5"
+                                showtext="0.5x"
+                                data-index="5"
+                              >
+                                <span>0.5x</span>
+                              </li>
+                            </ul></xg-icon
+                          ></xg-right-grid
+                        >
+                      </xg-inner-controls>
+                    </xg-controls>
+                    <xg-sdk-toast
+                      class="xgplayer-sdk-toast"
+                      data-index="5"
+                    ></xg-sdk-toast
+                    ><xg-mini-layer class="xg-mini-layer" data-index="10">
+                      <xg-mini-header class="xgplayer-mini-header">
+                        <div lang-key="MINI_DRAG">点击按住可拖动视频</div>
+                      </xg-mini-header>
+                      <div class="mini-cancel-btn">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fill="#fff"
+                            fill-rule="evenodd"
+                            d="M3.99 3.49a1 1 0 0 1 1.414 0L10 8.085l4.596-4.595a1 1 0 1 1 1.414 1.414L11.414 9.5l4.596 4.596a1 1 0 0 1 .084 1.32l-.084.094a1 1 0 0 1-1.414 0L10 10.914 5.404 15.51a1 1 0 0 1-1.414-1.414L8.585 9.5 3.99 4.904a1 1 0 0 1-.084-1.32z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div class="play-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          fill="none"
+                          class="xg-icon-play"
+                        >
+                          <path
+                            d="M14.121 8.299a2 2 0 010 3.402l-7.94 4.91c-1.332.825-3.051-.133-3.051-1.7V5.09c0-1.567 1.72-2.525 3.052-1.701l7.939 4.911z"
+                            fill="#fff"
+                          ></path></svg
+                        ><svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          fill="none"
+                          class="xg-icon-pause"
+                        >
+                          <rect
+                            x="5.313"
+                            y="3.75"
+                            width="3.125"
+                            height="12.5"
+                            rx=".625"
+                            fill="#fff"
+                          ></rect>
+                          <rect
+                            x="11.563"
+                            y="3.75"
+                            width="3.125"
+                            height="12.5"
+                            rx=".625"
+                            fill="#fff"
+                          ></rect>
+                        </svg>
+                      </div> </xg-mini-layer
+                    ><xg-danmu
+                      class="xgplayer-danmu-container danmu"
+                      style="opacity: 1"
+                    ></xg-danmu>
+                  </div>
+                </div>
+                <div data-v-4228c374="" style="width: 100%">
+                  <span data-v-4228c374="" id="audio-area" class="db audio-area"
+                    ><div
+                      data-v-4228c374=""
+                      id="audio-desc"
+                      class="audio-desc db"
+                    >
+                      <div data-v-4228c374="" class="audio-tips db">
+                        16. 国家能力越强越好吗？苏联往事
+                      </div>
+                      <div data-v-4228c374="" class="bar">
+                        <div data-v-4228c374="" class="progressbar">
+                          <div data-v-4228c374="" class="yellowbar">
+                            <span data-v-4228c374="" class="ball"></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div data-v-4228c374="" class="audio-info">
+                        <span data-v-4228c374="" class="audio-begin"
+                          >00:00</span
+                        >
+                        <span data-v-4228c374="" class="audio-length"
+                          >25:18</span
+                        >
+                      </div>
+                    </div>
+                    <span data-v-4228c374="" class="audio_play_area"
+                      ><i data-v-4228c374="" class="tocPlay"></i>
+                      <i
+                        data-v-4228c374=""
+                        class="tocPlaying"
+                        style="display: none"
+                      ></i></span
+                  ></span>
+                  <!---->
+                </div>
+              </div>
+            </div>
+            <div data-v-4228c374="" id="article-self" class="article">
+              <div data-v-4228c374="" class="article_content">
+                <div>
+                  大家好，我是刘瑜，欢迎来到《比较政治学》节目的第十六讲。
+                </div>
+                <h4 class="article-h4">引言：国家能力越强大越好吗？</h4>
+                <div>
+                  上期节目，我们讨论了为什么在比较政治学界，会出现“重新带回国家”的潮流，讲到了国家能力对于一个国家的稳定秩序、经济发展、公共服务等等都至关重要。
+                </div>
+                <div>
+                  事实上，我发现，最近这些年，“国家能力”这个概念已经有了“万能化”的趋势了：一个国家经济为什么发展？因为国家能力。为什么民主质量不行？因为国家能力低下。为什么发生了战争？因为国家能力下降。为什么战争结束了？因为国家能力上升……有时候，国家能力低下被定义为“腐败”，用来解释经济落后；有时候国家能力低下又被定义为“经济落后”，用来解释腐败，等等。这就有点像犯罪学中的“童年阴影”了，每当一个离奇杀手出现，专家们就冒出来，从这个人童年的家庭关系说起，说得头头是道。
+                </div>
+                <div>
+                  既然国家能力很重要，这几乎已经成为一个共识，那么，一个很自然的问题是：<span
+                    style="color: #c6b178"
+                    >国家能力越强大越好吗？</span
+                  >
+                </div>
+                <h4 class="article-h4">
+                  1. 分析苏联的陨落，理解“国家能力”概念的限度
+                </h4>
+                <div>
+                  关于这个问题，我想从一个地球上已经消失的国家说起：<span
+                    style="color: #c6b178"
+                    >苏联</span
+                  >。
+                </div>
+                <div>
+                  为什么要谈论“苏联”？因为苏联曾经是一个无比强大的国家，它曾是世界上两个超级大国之一，很多人甚至一度认为它将赶超美国，独霸天下。然而，就是这样一个风云一时的国家，在71年的生命之后，突然崩溃了，而且几乎是无声无息地崩溃了，仿佛掉进了历史的黑洞。或许，分析它的陨落，能帮助我们理解国家能力这个概念的限度。
+                </div>
+                <h4 class="article-h4">1.1 衡量“国家能力”的三个重要指标</h4>
+                <div>
+                  毫无疑问，无论从哪个角度来看，苏联的国家能力都曾经是非常强大的。尽管不同的学者常常用不同的尺度衡量国家能力，通常而言，有几个指标是最受公认的。一个是<span
+                    style="color: #c6b178"
+                    >军队和警察的力量</span
+                  >，也就是国家暴力垄断的能力；二是<span style="color: #c6b178"
+                    >财税状况</span
+                  >，也就是政府能把多少社会资源聚集到自己手里来。这两点，大家都容易理解，一个是枪杆子，一个是钱袋子，国家能力的两大支柱。
+                </div>
+                <div>
+                  还有第三个，也是近年越来越受到学者们重视的一点，就是<span
+                    style="color: #c6b178"
+                    >国家的信息能力</span
+                  >，什么叫信息能力？简单来说，就是国家的“视力”——国家在多大程度上掌握了其疆域内人口、土地、资源的信息——别小看这种信息能力，你如果都不知道自己国家有多少人、谁去世了、谁出生了，你怎么征兵？你如果不知道自己国家有多少土地、公司、矿产，你又怎么征税？所以，枪杆子和钱袋子很大程度上依赖于国家的信息能力。
+                </div>
+                <div>
+                  历史上比较强大的国家，通常也是土地册、人口普查和登记，做得比较好的国家。学者<span
+                    style="color: #c6b178"
+                    >James C. Scott</span
+                  >写过一本书，叫做<span style="color: #c6b178"
+                    >“Seeing Like a State”</span
+                  >，在中国被翻译成<span style="color: #c6b178"
+                    >《国家的视野》</span
+                  >，这本书表达的也是类似的意思。
+                </div>
+                <div>
+                  <img
+                    class="upload"
+                    src="./16_files/1598372611559.jpg"
+                    alt=""
+                    width="200"
+                    height="310"
+                  />
+                </div>
+                <div>
+                  可以说，强国家就是政府视力2.0的国家，弱国家就是高度近视的国家。强国家能清清楚楚地看到自己疆域上所发生的一切，一切人口、一切生老病死、一切经济活动、一切武装力量，到21世纪，甚至还包括几亿人里每一个人的脸型、指纹、体温；而弱国家的政府，作为高度近视患者，它眼中的世界是模模糊糊的，又因为模糊，它走起路来也是跌跌撞撞的。所以，信息能力也是国家能力中重要的一条。
+                </div>
+                <h4 class="article-h4">
+                  1.2 强大的暴力垄断能力：苏联的军队与警察力量
+                </h4>
+                <div>那么，我们用这几个指标来看看苏联。</div>
+                <div>
+                  首先，苏联的军队和警察力量是毋庸置疑的。直到今天，俄罗斯，也就是前苏联解体后的主要成员国，仍然是世界上核弹头最多的国家。2018年，它的GDP只有美国的1/12，但是它的核弹头数量仍然超过了美国，显然，这是前苏联的政治遗产之一。警察就更不用说了，大家都知道，苏联不但有警察，还有“秘密警察”，也就是著名的克格勃系统<img
+                    class="note"
+                    src="./16_files/zhushi.png"
+                    data-ref="克格勃系统"
+                    data-note="国家安全委员会（俄语：Комите́т госуда́рственной безопа́сности，俄文罗马化：Komitet gosudarstvennoy bezopasnosti），是1954年3月13日-1991年11月6日期间苏联的情报机构。"
+                  />。你们可能听说过一个著名的苏联笑话，说苏联人在一起谈论什么叫幸福？最后的结论是，幸福就是当克格勃半夜敲门、宣布“伊万同志、你被捕了”的时候，你惊喜地告诉他：“对不起，伊万住在隔壁。”
+                </div>
+                <div>
+                  正是因为军队警察力量强大，苏联政府在其国土上的暴力垄断能力无人匹敌。在其71年的历史上，除了最开始和白军的内战，以及二战，苏联几乎没有什么大规模的暴力冲突。莫斯科的大街上绝没有墨西哥式的毒品黑帮；阿富汗式的军阀割据也是闻所未闻；至于叛乱分子、反革命分子，那是有一个杀一个，甚至可以说，有一个杀十个。
+                </div>
+                <div>
+                  我们知道，哪怕是美国，世界第一强国，刺杀总统这样的事情也是屡见不鲜，甚至在纳粹德国，也发生过“刺杀希特勒”的行动，但是在苏联历史上，尤其是斯大林时期，有过刺杀最高领导人的事情吗？反正我是没有听说过。别说刺杀斯大林，就是斯大林死了，身边的人居然很长时间都不敢过去检查他是不是真的死了。前两年有个电影《斯大林之死》，大家可能听说过，就是以黑色喜剧的方式表现这个事情。可以说，苏联整个国家鸦雀无声的程度，真的是“一根针掉在地上都可以听见”。
+                </div>
+                <div>
+                  <img
+                    class="upload"
+                    src="./16_files/1598373053212.jpg"
+                    alt=""
+                    width="200"
+                    height="296"
+                  />
+                </div>
+                <div>
+                  大家应该都听说过<span style="color: #c6b178">古拉格群岛</span
+                  >，苏联用来流放各种犯人尤其是政治犯的地方。我出于好奇曾经专门去查过，在古拉格的历史上，有没有出现过有组织的武装反抗？毕竟，我们都听说过一个说法，把俄罗斯称为“战斗的民族”，那么，这个战斗的民族在古拉格群岛有没有“战斗”过？答案是：没有。在古拉格集中营几十年的历史上，没有出现过有组织的反抗。
+                </div>
+                <div>
+                  唯一一次勉强可以称为有组织的反抗，还是集中营的几个看守组织的，是一次逃亡行动，参与者大约有一两百人。
+                </div>
+                <div>
+                  <img
+                    class="upload"
+                    src="./16_files/1598374557392.jpg"
+                    alt=""
+                    width="200"
+                    height="296"
+                  />
+                </div>
+                <div>
+                  根据<span style="color: #c6b178">《古拉格：一部历史》</span
+                  >这本书，这次逃亡的结局是这样的，“最后的决战发生在1月31号，整整打了一天一夜。当民兵逼近时，一些暴动者开枪自杀。内务部派人围捕森林里的残余暴动者，将他们逐一射杀。尸体被堆放在一起，民兵将其肢解，然后拍照留念。从档案里的照片来看，变形的尸体浑身是血地躺在雪地里。没有人知道尸体被埋在什么地方。”所以，这就是集体逃亡的下场，这就是苏联的国家能力。即使是传奇的“战斗民族”，政府面对社会，可以说是“如入无人之境”。
+                </div>
+                <div>
+                  <img
+                    class="upload"
+                    src="./16_files/1598373097740.jpg"
+                    alt=""
+                    width="300"
+                    height="212"
+                  />
+                </div>
+                <div class="img-info" style="text-align: center">
+                  图片来源：Drawings from the Gulag，by Danzig Baldaev
+                </div>
+                <h4 class="article-h4">
+                  1.3 整个“蛋糕”都是国家的：苏联的财税能力
+                </h4>
+                <div>
+                  再看苏联的财税能力。这一点就更不用说了。政府的税收能力，通常是指政府能从整个社会生产的“蛋糕”中切分多少，也就是能收百分之多少的税。一般来说，政府往往需要费劲九牛二虎之力，才能说服民众多交一点税，有时候说服不了，还可能是搬起石头砸自己的脚。像当年大英帝国，想说服北美民众交点印花税、茶叶税，结果直接就被北美人民用扫把赶回了大西洋对岸。
+                </div>
+                <div>
+                  但是，苏联不用操心这个问题，为什么？它直接把经济全部改造成了<span
+                    style="color: #c6b178"
+                    >国有经济</span
+                  >，整个“蛋糕”都是国家的，所以，问题不再是国家能从社会中切割多少“蛋糕”，而是社会能从国家手里分到多少“蛋糕”。
+                </div>
+                <div>
+                  这也部分解释了，为什么苏联时期几乎没有有组织的反抗。当你的工作是国家给的、你的住房是国家给的、你孩子上的学校是国家的、你的粮票是国家的、甚至你出门上个火车都要国家开的介绍信，你怎么反抗？你反抗就相当于金鱼拼命跳出鱼缸，你以为自己是在自救，其实你是在自杀。
+                </div>
+                <h4 class="article-h4">
+                  1.4 国家“视力”2.0：苏联政府的信息能力
+                </h4>
+                <div>再来看看苏联政府的信息能力。</div>
+                <div>
+                  经济信息就不用说了——既然是计划经济，政府必然要全方位地掌握关于生产、消费的信息。人口的信息也不用说，苏联时期有一种证件叫做Propiska，既是户口，又是迁徙证，又是某种意义上的工作许可证，通过这样一个系统，政府对每个人的位置与流动可以说有显微镜般的知识。
+                </div>
+                <div>
+                  更重要的是，通过鼓励所谓积极分子，政府还塑造了一个庞大的相互告发系统，使得政府能清清楚楚地掌握着每个人的私生活信息。这一点，大家有兴趣的话，可以去读一本叫做<span
+                    style="color: #c6b178"
+                    >《耳语者》</span
+                  >的书，是一个英国历史学家<span style="color: #c6b178"
+                    >Orlando Guy Figes</span
+                  >写的，内容是关于苏联时期家庭生活。
+                </div>
+                <div>
+                  <img
+                    class="upload"
+                    src="./16_files/1598373251805.jpeg"
+                    alt=""
+                    width="200"
+                    height="300"
+                  />
+                </div>
+                <div>
+                  其实，这本书的书名就足够说明问题了：耳语者，英文叫做The
+                  Whisperers，也就是窃窃私语的人。为什么要“窃窃私语”？因为没有人敢大声说话，每个人都怕自己所说的话会被亲友或者邻居告发，哪怕所说的话无关政治、更不反动，但是，无名的恐惧始终存在，就像一把利剑悬在头顶，你不知道它什么时候会掉下来。
+                </div>
+                <h4 class="article-h4">1.5 苏联特色：国家的思想改造能力</h4>
+                <div>
+                  强大的军事能力、财政能力、信息能力，还不是全部，在苏联时期，最具苏联特色的，恐怕还是国家的思想改造能力。
+                </div>
+                <div>
+                  苏联时期的洗脑，不仅仅是依靠暴力威胁或者宣传口号，它有一整套的仪式、程序、配方，让活泼泼一个人走进去，然后像个机器人一样被吐出来。出来之后，就成了所谓的“社会主义新人”，说着同样的语言，散发着同样的气质，拥有同样的审美，甚至穿着一样的衣服，总之，拥有了一种“集体人格”。
+                </div>
+                <div>
+                  这种思想改造的成功，大概就是为什么在希特勒的德国，还会发生军官们联合刺杀希特勒的行动，但是在斯大林的苏联，哪怕被斯大林亲手送到了断头台上，革命将领们还在热泪盈眶地高呼“斯大林万岁”。
+                </div>
+                <h4 class="article-h4">
+                  2. 国家能力超强的苏联，为何在短暂的生命后崩溃了？
+                </h4>
+                <div>
+                  好，现在我们清楚了，苏联作为一个国家，具有无与伦比的国家能力。然而，<span
+                    style="color: #c6b178"
+                    >这样一个无所不能的国家，短短71年之后，坍塌了、消失了。为什么？</span
+                  >
+                </div>
+                <h4 class="article-h4">2.1 是美国或戈尔巴乔夫搞垮了苏联吗？</h4>
+                <div>
+                  关于这个问题，我们经常听到一种说法，叫做“苏联被美国给拖垮了”。这个说法显然不够有说服力，最简单的反问是：两国竞争，为什么被拖垮的是苏联、而不是美国？如果苏联真的像一些人认为的那样，代表了未来，那么被拖垮的理应是美国，对不对？
+                </div>
+                <div>
+                  还有一个常见的解释，是“苏联被戈尔巴乔夫给搞垮了”。这个说法同样站不住脚。就算戈尔巴乔夫是个坏人，想搞垮苏联，问题是：“人民群众”怎么就答应了呢？如果民众“不答应”，他一个人无论如何也搞不垮一个国家，对不对？
+                </div>
+                <div>
+                  在苏联崩溃的过程中，无论是政权的倒台、还是各个共和国的独立，都没有遭遇民意的大规模抵抗。哪怕沙皇政权当年倒台的时候，都还有几十万人加入白军，为旧政权而战，但是苏联政权崩溃的时候，绝大多数民众的态度基本上就是“慢走、不送”。所以，把责任推到戈尔巴乔夫一个人身上，也是说不通的。
+                </div>
+                <h4 class="article-h4">
+                  2.2 苏联瓦解的真正原因：国家能力的过于强大
+                </h4>
+                <div>
+                  苏联的瓦解，真正的原因，在我看来，恰恰是<span
+                    style="color: #c6b178"
+                    >其国家能力过于强大</span
+                  >。
+                </div>
+                <div>
+                  因为过于强大的国家能力，这个国家失去了刹车机制，无法调整自己的方向，导致它一条道开到了悬崖。因为过于强大的国家能力，它消灭了社会，从而失去了改革所需要的反馈机制和压力机制，最后只能靠“死机”来实现“重启”。因为过于强大的国家能力，它走向了过度扩张，军事上的、经济上的、政治上的过度扩张，最后耗尽了资源、也耗尽了民心。<span
+                    style="color: #c6b178"
+                    >总之，无节制的国家能力导致过于庞大、沉重的政府，最后这个国家被自身的重量所压垮。</span
+                  >
+                </div>
+                <div>
+                  为什么这么说？为什么说苏联的崩溃恰恰是因为“国家能力过于强大”？这可以从几个方面来看。
+                </div>
+                <h4 class="article-h4">
+                  2.3 苏联的秩序：暴力的高度垄断与过度扩张
+                </h4>
+                <div>
+                  首先，我们来看苏联的秩序。的确，<span style="color: #c6b178"
+                    >在苏联，暴力是高度垄断的</span
+                  >，不存在当代墨西哥式的分散暴力，更看不到任何力可敌国的武装叛军。但是，当社会的自组织能力完全被抹杀，国家和社会之间的实力对比完全不对称，结果是什么？结果是<span
+                    style="color: #c6b178"
+                    >社会失去了谈判能力</span
+                  >，成为任人宰割的鱼肉。
+                </div>
+                <div>
+                  苏联1932年左右的农业集体化过程中，因为强制性的过度粮食征收，加上对人口流动的限制，乌克兰发生了惨烈的饥荒，导致3-7百万人死亡。政治迫害更是举世闻名。据保守的估计，从斯大林接管党权的1928年到他去世的1953年，约有2500万人受到政权的迫害，占人口大约八分之一。仅在1937和1938年，至少有68万人因为“危害国家罪”被枪决。甚至党内高干也不能幸免。1934年苏共17大选出的139名中央委员中，102人遭枪决。
+                </div>
+                <div>
+                  这就是苏联式“秩序”的代价。我们可以想象，在这些冷冰冰的数字后面，有多少泪水、挣扎、恐惧与绝望。所以，回到我们刚才提出的那个问题，当苏联走向解体的时候，为什么人民群众就“答应了”呢？答案恐怕就在这些挣扎和恐惧中。
+                </div>
+                <div>
+                  <span style="color: #c6b178"
+                    >暴力的过度扩张不仅仅是在苏联国内，也向国外蔓延。</span
+                  >大家可能都听说过“布拉格之春”，1968年，面对其卫星国捷克的民众抗议，苏联一口气把两千个坦克给开了过去，扑灭了捷克革命的火苗。
+                </div>
+                <div>
+                  <img
+                    class="upload"
+                    src="./16_files/1598373298421.jpg"
+                    alt=""
+                    width="400"
+                    height="267"
+                  />
+                </div>
+                <div class="img-info" style="text-align: center">
+                  图片来源：https://cn.nytimes.com/world/20180821/prague-spring-communism/zh-hant/
+                </div>
+                <div>
+                  “布拉格之春”只是类似霸权主义的一个例子，无论是东德1953年的风波，还是匈牙利1956年风波，它们难以掀起巨大的风浪，很大程度上都是因为苏联的军事威胁。
+                </div>
+                <div>
+                  但是，苏联最严重的一次过度扩张，则是1980年入侵阿富汗。某种意义上，阿富汗对于苏联，就像是越南对于美国，一个超级大国踏进一个弱小国家，以为自己可以轻松搞定，结果是自己给自己挖了一个坑，怎么也跳不出来了。关于这一点，后面讲到阿富汗的时候，我还会再涉及。
+                </div>
+                <h4 class="article-h4">
+                  2.4 苏联经济：经济结构扭曲与“掠夺型国家”形成
+                </h4>
+                <div>
+                  再来看苏联经济。超强的国家能力有没有带来苏联的经济发展？有。至少在一个阶段内如此。斯大林上台后不久，就提出要用10年的时间去实现西方国家100年的工业化成果。于是，政府利用其强大的动员能力发动了经济引擎。<a
+                    href="https://www.investopedia.com/articles/investing/021716/why-ussr-collapsed-economically.asp"
+                    >1928-1940年，苏联的经济增长率是年均5.8%，1950-1960年是5.7%</a
+                  >，所以赫鲁晓夫在台上的时候，才会宣布苏联1970年人均GDP将要赶超美国。不但他这么自信，当年西方不少政治家和学者也认为苏联赶超美国指日可待。
+                </div>
+                <div>
+                  但是，从60年代中期开始，苏联经济发展开始减速。<a
+                    href="https://tnsr.org/2018/02/assessing-soviet-economic-performance-cold-war/"
+                    >1960年代经济增速跌至百分之4点几，1970年代跌至百分之2点几，到80年代，只剩下了百分之1点几，而它的全要素生产率已经跌到了负数。</a
+                  >
+                </div>
+                <div>
+                  <span style="color: #c6b178"
+                    >为什么苏联的经济发展会先加速、后减速？</span
+                  >同样是<span style="color: #c6b178"
+                    >因为国家能力的过度拉伸</span
+                  >。简单来说，第一，过强的国家能力扭曲了经济结构；第二，“发展型国家”一旦过度，就成了“掠夺型国家”。因为国家指哪打哪，苏联经济模式被扭曲，重投资、轻消费；重军工，轻生活；重模仿，轻创新；这一系列扭曲的后果就是经济发展失去了后劲，陷入“短缺经济”的陷阱。
+                </div>
+                <div>
+                  而且，在全盘的计划经济和国有经济下，整个“蛋糕”都是国家的，对普通人来说，干多干少、干好干坏都一样，他们为什么要积极生产和创新？在所有的苏联笑话中，我印象最深的一条，是以一个工人的视角说的，他说：We
+                  pretend to work, and they pretend to
+                  pay。“我们假装工作，他们假装发工资。”短短一句话，道尽了苏联经济的全部问题：<span
+                    style="color: #c6b178"
+                    >劳动者根本没有动力生产，而政府发的钱什么也买不到。</span
+                  >
+                </div>
+                <h4 class="article-h4">2.5 苏联的思想改造：向人性开战</h4>
+                <div>
+                  再来看苏联的思想改造。的确，苏联一度成功地改造了无数人的头脑，但是，这种成功同样是过眼云烟式的。为什么？因为这种思想改造的核心，是号召人们为了集体放弃个体、为了国家放弃家庭、为了理想放弃利益、为了信仰放弃情感……可以说，它是向人性开战。
+                </div>
+                <div>
+                  人性是什么？人性是复杂，是多变，是魔鬼和天使混合体。而思想改造是什么？是要消灭复杂，消灭变化，让人类完全变成天使。这可能成功吗？不可能。如果要强行把现实按到理想中去，结果就是假大空。这就像吹气球，你可以把一个普通的气球吹到西瓜那么大，但是再吹下去，它随时就可能爆破。
+                </div>
+                <div>
+                  《耳语者》里面，有一个情节我非常难忘。里面讲到一个所谓的反革命教师，他被枪毙后，他的遗孀和孩子为了生活而投奔这个教师的妈妈，也就是孩子的奶奶家。但是，奶奶家明明有两层楼的房子，却拒绝收容他们，甚至不愿给长途跋涉的一家人一口饭吃，他们只好在村子里租了一个小房子住。而在他们住在村子里的15年里，奶奶家的亲戚从来不和他们来往。这个孩子后来回忆说：“最痛苦的是，看到他们走过我们的街道——哪怕周围肯定没有人监听——他们仍然不跟我们说话，甚至连一声招呼都不打。”人际关系如此的扭曲，连奶奶都不再怜惜孙女，或许能证明思想改造的成功，但是，<span
+                    style="color: #c6b178"
+                    >比国家更强大的是人性</span
+                  >。
+                </div>
+                <div>
+                  人们渴望亲情、渴望友谊、渴望舒适、渴望美……或许人们会因为理想的感召而暂时放下这些渴望，但是，最终，人类通过几百万年进化出来的道德本能、情感本能、求生本能，会在政治的潮起潮落后重新浮出水面。
+                </div>
+                <h4 class="article-h4">结语：国至强则易断</h4>
+                <div>
+                  所以，回到最开始那个问题：国家能力越强大越好吗？显然，并非如此。<span
+                    style="color: #c6b178"
+                    >或许，国家能力和治理绩效之间存在一个“倒U型”的关系</span
+                  >：在一个区间里，强大的国家能力有助于经济发展、公共服务和政治秩序，但是过了某个点之后，国家则可能因为失去任何缰绳而变成破坏性的力量。
+                </div>
+                <div>
+                  经济学者<span style="color: #c6b178">Daron Acemoglu</span
+                  >在<span style="color: #c6b178">《狭窄的通道》</span
+                  >这本书里表达过类似的看法，他用的词叫“<span
+                    style="color: #c6b178"
+                    >被缚的利维坦<img
+                      class="note"
+                      src="./16_files/note.png"
+                      data-ref="利维坦"
+                      data-note="原为《旧约圣经》中记载的一种怪兽，在托马斯·霍布斯1651年出版的著作《利维坦，或教会国家和市民国家的实质、形式、权力》中，被用来比喻强势的国家。" /></span
+                  >”。什么意思呢？他说国家状态有三种：一种是国家缺失，一种是国家无比强大，第三种则是“被缚的利维坦”。没有利维坦就不会有秩序，但是利维坦过于强大又可能反噬社会，只有“戴上镣铐的利维坦”，就像被套上缰绳的马匹一样，既能干活，又不会随意踩坏庄稼。
+                </div>
+                <div>
+                  其实，苏联的故事何止发生在苏联。历史上，有过许多类似的情节：<span
+                    style="color: #c6b178"
+                    >一个强大的国家走向过度扩张、最后因为过度拉伸而脆断。</span
+                  >中国历史上的秦朝、隋朝，蒙古帝国，日本帝国，德意志第三帝国，红色高棉时期的柬埔寨……国家建构都可以说登峰造极。但是，当扩张变成过度扩张，河流变成洪流，细雨变成暴雨，国家能力就成为一种诅咒。
+                </div>
+                <div>
+                  不奇怪的是，这些国家都有两个共同点，一个是<span
+                    style="color: #c6b178"
+                    >强大</span
+                  >，另一个则是<span style="color: #c6b178">短暂</span
+                  >。大一统的秦朝只存在了14年，隋朝只存在了38年，德意志第三帝国只存在了12年，红色高棉执政只有4年。相比之下，苏联还算是长寿的了。当然，在历史的长河中，71年也不过是昙花一现。
+                </div>
+                <div>
+                  显然，这些国家的短暂并非偶然，水至清则无鱼，国至强则易断，在短暂和强大之间，或许存在着一种悲剧性的联系。当一个国家所向披靡，失去制约，或许没有人可以战胜它，但是，它可以成为自己最强大的敌人。
+                </div>
+                <div>好，今天就讲到这里，感谢收听，我们下次再见！</div>
+              </div>
+              <!---->
+              <!---->
+              <!---->
+              <!---->
+              <!---->
+            </div>
+          </div>
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+        </div>
+      </div>
     </div>
-    
-        
-            <a class="header-right-picture " href="#about">
-        
-        
-            <img class="header-picture" src="/assets/images/avatar.jpeg" alt="作者的图片">
-        
-        </a>
-    
-</header>
-
-            <!-- Define author's picture -->
-
-    
-                
-                            
-                                
-                                    
-                                        <nav id="sidebar" data-behavior="1">
-                                            <div class="sidebar-container">
-                                                
-                                                    <div class="sidebar-profile">
-                                                        <a href="/#about">
-                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpeg" alt="作者的图片">
-                </a>
-                                                        <h4 class="sidebar-profile-name">
-                                                            碳14
-                                                        </h4>
-                                                        
-                                                            <h5 class="sidebar-profile-bio">
-                                                                <p>咸鱼君’s blog</p>
-
-                                                            </h5>
-                                                            
-                                                    </div>
-                                                    
-                                                        
-                                                            <ul class="sidebar-buttons">
-                                                                
-                                                                    <li class="sidebar-button">
-                                                                        
-                                                                                    <a class="sidebar-button-link " href="/ " title="首页">
-                    
-                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">首页</span>
-                    </a>
-                                                                    </li>
-                                                                    
-                                                                    <li class="sidebar-button">
-                                                                        
-                                                                                    <a class="sidebar-button-link " href="/all-categories" title="分类">
-                    
-                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">分类</span>
-                    </a>
-                                                                    </li>
-                                                                    
-                                                                    <li class="sidebar-button">
-                                                                        
-                                                                                    <a class="sidebar-button-link " href="/all-tags" title="标签">
-                    
-                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">标签</span>
-                    </a>
-                                                                    </li>
-                                                                    
-                                                                    <li class="sidebar-button">
-                                                                        
-                                                                                    <a class="sidebar-button-link " href="/all-archives" title="归档">
-                    
-                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">归档</span>
-                    </a>
-                                                                    </li>
-                                                                    
-                                                                    <li class="sidebar-button">
-                                                                        
-                                                                                    <a class="sidebar-button-link " href="#about" title="关于">
-                    
-                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">关于</span>
-                    </a>
-                                                                    </li>
-                                                                    
-                                                            </ul>
-                                                            
-                                                            <ul class="sidebar-buttons">
-                                                                
-                                                                    <li class="sidebar-button">
-                                                                        
-                                                                            <a class="sidebar-button-link " href="https://github.com/Rcong" target="_blank" rel="noopener" title="GitHub">
-                                                                                
-                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-                                                                    </li>
-                                                                    
-                                                                    <li class="sidebar-button">
-                                                                        
-                                                                            <a class="sidebar-button-link " href="mailto:654846387@qq.com" target="_blank" rel="noopener" title="邮箱">
-                                                                                
-                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">邮箱</span>
-                    </a>
-                                                                    </li>
-                                                                    
-                                                            </ul>
-                                                            
-                                                            <ul class="sidebar-buttons">
-                                                                
-                                                                    <li class="sidebar-button">
-                                                                        
-                                                                                    <a class="sidebar-button-link " href="/atom.xml" title="RSS">
-                    
-                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">RSS</span>
-                    </a>
-                                                                    </li>
-                                                                    
-                                                            </ul>
-                                                            
-                                            </div>
-                                        </nav>
-            
-            <div id="main" data-behavior="1"
-                 class="
-                        hasCoverMetaIn
-                        ">
-                <section class="postShorten-group main-content-wrap">
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/07/30/2019/Three years/">
-                            Three years
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-07-30T22:38:10+08:00">
-	
-		    7月 30, 2019
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/Other/">Other</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>在光云的千牛事业部已经…</p>
-                    
-                        <a href="/2019/07/30/2019/Three years/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/07/25/2019/QAP简介/">
-                            QAP简介
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-07-25T15:48:41+08:00">
-	
-		    7月 25, 2019
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/技术/">技术</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>QAP —— Qianniu Application Platform，是阿里千牛官方推出的开发者套件。底层使用了 weex 渲染，上层有 SDK 接口、Rax 库、基于 Rax 的 UI 组件库 Nuke 以及命令行工具 QAP-CLI。</p>
-                    
-                        <a href="/2019/07/25/2019/QAP简介/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/07/17/2019/QAPDemo二维码/">
-                            QAP Demo 二维码
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-07-17T21:37:02+08:00">
-	
-		    7月 17, 2019
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/技术/">技术</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>下面组件的Demo二维码请用千牛扫描。</p>
-                    
-                        <a href="/2019/07/17/2019/QAPDemo二维码/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/03/15/2019/如何理解TCP中「三次握手」和「四次挥手」/">
-                            如何理解TCP中「三次握手」和「四次挥手」
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-03-15T15:48:41+08:00">
-	
-		    3月 15, 2019
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/技术/">技术</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>说起计算机网络知识中的「三次握手」和「四次挥手」，比较基础的印象就是SYN的请求与ACK、SYN的回传，FIN的请求断开等概念，描述起来只是浮于表面，所以补了一下这方面的知识，形成这篇手记。</p>
-                    
-                        <a href="/2019/03/15/2019/如何理解TCP中「三次握手」和「四次挥手」/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/02/17/2019/浅析DNS协议/">
-                            浅析DNS协议
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-02-17T20:48:02+08:00">
-	
-		    2月 17, 2019
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/技术/">技术</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>在网络中，网站的IP地址很难让人去记住，一般都是使用域名去访问，因此就有了DNS服务器，根据IP查询域名的地址簿。</p>
-<p>每台计算器上都有相应的DNS客户端，也称作DNS解析器。通过DNS查询IP地址的操作称为域名解析，DNS解析器实际上是一段代码，包含在了操作系统的Socket库中，Socket是C语言实现的调用网络功能的库。</p>
-                    
-                        <a href="/2019/02/17/2019/浅析DNS协议/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-            <a href="/2019/02/17/2019/浅析DNS协议/">
-                <div class="postShorten-thumbnailimg">
-                    <img alt src="https://static001.geekbang.org/resource/image/ff/f2/ff7e8f824ebd1f7e16ef5d70cd79bdf2.jpg">
-                </div>
-            </a>
-            
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/12/20/2018/按需加载弹框类组件/">
-                            按需加载弹框类组件
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-12-20T13:11:52+08:00">
-	
-		    12月 20, 2018
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/技术/">技术</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>部门有个老项目，使用的是原生js自研框架，是那种spa架构的产品，比较多的一个场景是列表或者表单，点击某个按钮有一些弹框的操作。目前的打包处理方式，这类弹框业务组件和一些基础的通用函数放置在一块打包成chunk，再根据一级路由划分打包成不同业务模块的js文件。所以打开页面时，会去加载某个路由js文件以及chunk文件。</p>
-<p>chunk里面包含了一大堆弹框业务组件导致文件变大，影响首屏加载的速度，怎么去优化这个文件大小比较合适？</p>
-                    
-                        <a href="/2018/12/20/2018/按需加载弹框类组件/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/10/02/2018/QAP中的Web Chart需求/">
-                            QAP中的Web Chart需求
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-10-02T19:48:41+08:00">
-	
-		    10月 02, 2018
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/技术/">技术</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>QAP的Chart库是基于weex + rax, 包含了线图、柱状图、饼图、雷达图等，由客户端插件实现，性能好，开发友好，直接引用就行。</p>
-<ul>
-<li>QAP原生的Chart</li>
-</ul>
-<p><img src="https://wx4.sinaimg.cn/mw690/8e70eab6ly1g5q9yq5aexj20k40un0uj.jpg" alt="Qap Chart"></p>
-<p>但是对于各插件商自己的业务需求，QAP的Chart库很难去满足不同的展现逻辑和需求。</p>
-                    
-                        <a href="/2018/10/02/2018/QAP中的Web Chart需求/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/">
-                            高性能JavaScript学习手记-执行与加载
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2016-12-02T15:48:41+08:00">
-	
-		    12月 02, 2016
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/技术/">技术</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>浏览器在处理HTML页面渲染和JavaScript脚本执行的时候是单一进程的,所以在当浏览器在渲染HTML遇到了<code>&lt;script&gt;</code>标签会先去执行标签内的代码(如果是使用src属性加载的外链文件,则先下载再执行),在这个过程中,页面渲染和交互都会被阻塞。</p>
-                    
-                        <a href="/2016/12/02/2016/高性能JavaScript学习手记-执行与加载/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
-        
-        
-        <li class="pagination-number">第 1 页 共 1 页</li>
-    </ul>
-</div>
-
-</section>
-
-
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2019 碳14. All Rights Reserved.
-    </span>
-</footer>
-
-            </div>
-            
-        </div>
-        
-
-
-    
-        
-    
-
-<div id="about">
-    <div id="about-card">
-        <div id="about-btn-close">
-            <i class="fa fa-times"></i>
-        </div>
-        
-            <img id="about-card-picture" src="/assets/images/avatar.jpeg" alt="作者的图片">
-        
-            <h4 id="about-card-name">碳14</h4>
-        
-            <div id="about-card-bio"><p>咸鱼君’s blog</p>
-</div>
-        
-        
-            <div id="about-card-job">
-                <i class="fa fa-briefcase"></i>
-                <br>
-                <p>author.job</p>
-
-            </div>
-        
-        
-    </div>
-</div>
-
-        
-        
-<div id="cover" style="background-image:url('/assets/images/cover-v1.1.0.jpg');"></div>
-        <!--SCRIPTS-->
-<script src="/assets/js/script-dbd16rvloemmuxdzniplmnxxvwoz24eya9wol0b7vvmlokgqsjivmb8dnscy.min.js"></script>
-<!--SCRIPTS END-->
-
-
-
-    </body>
+    <script
+      type="text/javascript"
+      src="./index.js"
+    ></script>
+  </body>
 </html>

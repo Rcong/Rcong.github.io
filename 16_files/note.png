@@ -1,0 +1,43 @@
+<!DOCTYPE html><html data-theme=light><head><meta charset=utf-8><meta http-equiv=Cache-Control content="no-cache, no-store, must-revalidate"><meta http-equiv=Pragma content=no-cache><meta http-equiv=Expires content=0><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><link rel=icon href=./static/img/favicon.ico type=image/x-icon><link rel=stylesheet href=//unpkg.byted-static.com/volcengine/veplayer/1.0.2-next.1/dist/index.min.css><script src=//unpkg.byted-static.com/volcengine/veplayer/1.0.2-next.1/dist/index.min.js></script><style>html {
+      height: 100%;
+      scroll-behavior: smooth;
+/* filter: grayscale(.5); */
+      
+    }
+body {
+  -webkit-text-size-adjust: 100%;
+}</style><script>var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5e6a1cf9cb572a0995800d3c9062d28c";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();</script><link rel="shortcut icon" href=/favicon.ico><link href=/static/css/app.8f68a99ef5b4430c6d1932cc26633a7f.css?7ca1ee20ff3c0b1e1399 rel=stylesheet></head><script>/eruda=true/.test(window.location) && (document.write('<script src="//cdn.jsdelivr.net/npm/eruda"><\/script>'),
+    document.write("<script>eruda.init();<\/script>"));</script><script>if(!window.isApp) {
+    (function() {
+        if (
+          typeof WeixinJSBridge == "object" &&
+          typeof WeixinJSBridge.invoke == "function"
+        ) {
+          handleFontSize();
+        } else {
+          if (document.addEventListener) {
+            document.addEventListener(
+              "WeixinJSBridgeReady",
+              handleFontSize,
+              false
+            );
+          } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+          }
+        }
+        function handleFontSize() {
+          console.log("handleFontSize");
+          WeixinJSBridge.invoke("setFontSizeCallback", { fontSize: 0 });
+          WeixinJSBridge.on("menu:setfont", function() {
+            WeixinJSBridge.invoke("setFontSizeCallback", { fontSize: 0 });
+          });
+        }
+      })();
+  }</script><body><div id=app></div><script type=text/javascript src=/static/js/manifest.4a99cf.js?7ca1ee20ff3c0b1e1399></script><script type=text/javascript src=/static/js/vendor.855a58.js?7ca1ee20ff3c0b1e1399></script><script type=text/javascript src=/static/js/app.4bbbd6.js?7ca1ee20ff3c0b1e1399></script></body></html>
